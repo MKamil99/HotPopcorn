@@ -5,10 +5,10 @@
 
     <fragment
         android:id="@+id/spottedFragment"
-        android:name="com.example.hotpopcorn.SpottedFragment"
+        android:name="com.example.hotpopcorn.view.SpottedFragment"
         android:label="SpottedFragment" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.hotpopcorn.SearchFragment"
+        android:name="com.example.hotpopcorn.view.SearchFragment"
         android:label="SearchFragment" />
 </navigation>

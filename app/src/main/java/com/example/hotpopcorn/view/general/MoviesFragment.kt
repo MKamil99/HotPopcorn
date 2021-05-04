@@ -1,4 +1,4 @@
-package com.example.hotpopcorn
+package com.example.hotpopcorn.view.general
 
 import android.os.Bundle
 import android.view.LayoutInflater

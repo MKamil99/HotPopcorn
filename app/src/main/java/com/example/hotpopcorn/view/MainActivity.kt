@@ -1,9 +1,10 @@
-package com.example.hotpopcorn
+package com.example.hotpopcorn.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

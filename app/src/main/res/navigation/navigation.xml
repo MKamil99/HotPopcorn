@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/searchFragment">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.hotpopcorn.HomeFragment"
-        android:label="HomeFragment" />
     <fragment
         android:id="@+id/spottedFragment"
         android:name="com.example.hotpopcorn.SpottedFragment"
         android:label="SpottedFragment" />
     <fragment
-        android:id="@+id/browseFragment"
-        android:name="com.example.hotpopcorn.BrowseFragment"
-        android:label="BrowseFragment" />
+        android:id="@+id/searchFragment"
+        android:name="com.example.hotpopcorn.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

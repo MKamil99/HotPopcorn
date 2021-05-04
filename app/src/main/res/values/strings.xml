@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">HotPopcorn</string>
-    <string name="home_tab">Home</string>
-    <string name="browse_tab">Browse</string>
+    <string name="search_tab">Search</string>
     <string name="spotted_tab">Spotted</string>
+    <string name="search_movies_tab">Movies</string>
+    <string name="search_people_tab">People</string>
+    <string name="search_tvshows_tab">TV Shows</string>
+    <string name="spotted_watched_tab">Watched</string>
+    <string name="spotted_willwatch_tab">Will Watch</string>
 </resources>

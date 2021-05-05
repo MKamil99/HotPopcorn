@@ -8,17 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.hotpopcorn.R
-import com.example.hotpopcorn.databinding.FragmentSearchBinding
-import com.example.hotpopcorn.view.general.MoviesFragment
-import com.example.hotpopcorn.view.general.PeopleFragment
-import com.example.hotpopcorn.view.general.TVShowsFragment
+import com.example.hotpopcorn.databinding.FragmentMainBinding
+import com.example.hotpopcorn.view.general.WatchedFragment
+import com.example.hotpopcorn.view.general.ToWatchFragment
 
-class SearchFragment : Fragment() {
-    private var _binding: FragmentSearchBinding? = null
+class LibraryFragment : Fragment() {
+    private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onDestroyView() {
@@ -39,19 +38,17 @@ class SearchFragment : Fragment() {
     // Managing inner fragments:
     private lateinit var viewPagerAdapter: PagerAdapter
     inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-        override fun getCount(): Int = 3
+        override fun getCount(): Int = 2
         override fun getItem(position: Int): Fragment {
             return when(position) {
-                1 -> PeopleFragment()
-                2 -> TVShowsFragment()
-                else -> MoviesFragment()
+                1 -> WatchedFragment()
+                else -> ToWatchFragment()
             }
         }
         override fun getPageTitle(position: Int): CharSequence {
             return when(position) {
-                1 -> getString(R.string.search_people_tab)
-                2 -> getString(R.string.search_tvshows_tab)
-                else -> getString(R.string.search_movies_tab)
+                1 -> getString(R.string.library_watched_tab)
+                else -> getString(R.string.library_towatch_tab)
             }
         }
     }

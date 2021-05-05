@@ -5,18 +5,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.hotpopcorn.databinding.FragmentMoviesBinding
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hotpopcorn.databinding.FragmentGeneralListBinding
+import com.example.hotpopcorn.model.Movie
+import com.example.hotpopcorn.view.adapters.MovieListAdapter
+import com.example.hotpopcorn.viewmodel.MovieViewModel
 
 class MoviesFragment : Fragment() {
-    private var _binding: FragmentMoviesBinding? = null
+    private var _binding: FragmentGeneralListBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentMoviesBinding.inflate(inflater, container, false)
+    private lateinit var movieVM : MovieViewModel
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        // Initializing the list:
+        movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
+        movieVM.setMoviesWithMatchingTitle("")
+        movieVM.moviesWithMatchingTitle.observe(viewLifecycleOwner, {
+            displayNewData(movieVM.moviesWithMatchingTitle.value ?: listOf()) })
+
+        // Access to layout:
+        _binding = FragmentGeneralListBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun displayNewData(movies : List<Movie>) {
+        binding.rvGeneralList.apply {
+            this.layoutManager = LinearLayoutManager(context)
+            this.adapter = MovieListAdapter(movies)
+        }
     }
 }

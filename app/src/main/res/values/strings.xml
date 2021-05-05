@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">HotPopcorn</string>
-    <string name="search_tab">Search</string>
-    <string name="spotted_tab">Spotted</string>
-    <string name="search_movies_tab">Movies</string>
-    <string name="search_people_tab">People</string>
-    <string name="search_tvshows_tab">TV Shows</string>
-    <string name="spotted_watched_tab">Watched</string>
-    <string name="spotted_willwatch_tab">Will Watch</string>
+
+    <string name="explore_tab">Explore</string>
+    <string name="library_tab">Library</string>
+    <string name="explore_movies_tab">Movies</string>
+    <string name="explore_people_tab">People</string>
+    <string name="explore_shows_tab">TV Shows</string>
+    <string name="library_watched_tab">Watched</string>
+    <string name="library_towatch_tab">To Watch</string>
+
+    <string name="itemImageViewDescription">Poster or photo</string>
+    <string name="searchButtonDescription">Search</string>
 </resources>

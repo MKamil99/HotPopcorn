@@ -6,9 +6,63 @@
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.example.hotpopcorn.view.LibraryFragment"
-        android:label="LibraryFragment" />
+        android:label="LibraryFragment" >
+        <action
+            android:id="@+id/action_libraryFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_TVShowDetailsFragment"
+            app:destination="@id/TVShowDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/exploreFragment"
         android:name="com.example.hotpopcorn.view.ExploreFragment"
-        android:label="ExploreFragment" />
+        android:label="ExploreFragment" >
+        <action
+            android:id="@+id/action_exploreFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_TVShowDetailsFragment"
+            app:destination="@id/TVShowDetailsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.hotpopcorn.view.details.MovieDetailsFragment"
+        android:label="MovieDetailsFragment" >
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_companyDetailsFragment"
+            app:destination="@id/companyDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyDetailsFragment"
+        android:name="com.example.hotpopcorn.view.details.CompanyDetailsFragment"
+        android:label="CompanyDetailsFragment" />
+    <fragment
+        android:id="@+id/TVShowDetailsFragment"
+        android:name="com.example.hotpopcorn.view.details.TVShowDetailsFragment"
+        android:label="TVShowDetailsFragment" >
+        <action
+            android:id="@+id/action_TVShowDetailsFragment_to_companyDetailsFragment"
+            app:destination="@id/companyDetailsFragment" />
+        <action
+            android:id="@+id/action_TVShowDetailsFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personDetailsFragment"
+        android:name="com.example.hotpopcorn.view.details.PersonDetailsFragment"
+        android:label="PersonDetailsFragment" >
+        <action
+            android:id="@+id/action_personDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_TVShowDetailsFragment"
+            app:destination="@id/TVShowDetailsFragment" />
+    </fragment>
 </navigation>

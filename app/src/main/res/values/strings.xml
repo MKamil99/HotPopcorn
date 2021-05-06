@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">HotPopcorn</string>
 
+    <!-- TABS -->
     <string name="explore_tab">Explore</string>
     <string name="library_tab">Library</string>
     <string name="explore_movies_tab">Movies</string>
@@ -9,6 +10,17 @@
     <string name="library_watched_tab">Watched</string>
     <string name="library_towatch_tab">To Watch</string>
 
-    <string name="itemImageViewDescription">Poster or photo</string>
+    <!-- MOVIE / TV SHOW DETAILS -->
+    <string name="descriptionHeader">Description</string>
+    <string name="castHeader">Cast</string>
+    <string name="crewHeader">Crew</string>
+
+    <!-- PERSON DETAILS -->
+    <string name="biographyHeader">Biography</string>
+    <string name="inCastHeader">Performed in</string>
+    <string name="inCrewHeader">Crew of</string>
+
+    <!-- CONTENT DESCRIPTIONS -->
+    <string name="itemImageViewDescription">Poster, logo or photo</string>
     <string name="searchButtonDescription">Search</string>
 </resources>

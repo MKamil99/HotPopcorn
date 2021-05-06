@@ -2,12 +2,16 @@ package com.example.hotpopcorn.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.ItemRowBinding
 import com.example.hotpopcorn.model.Movie
+import com.example.hotpopcorn.viewmodel.MovieViewModel
 
-class MovieListAdapter(private val movies : List<Movie>) : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+class MovieListAdapter(private val movies : List<Movie>,
+                       private val movieVM : MovieViewModel) : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemRowBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
@@ -18,10 +22,19 @@ class MovieListAdapter(private val movies : List<Movie>) : RecyclerView.Adapter<
     inner class ViewHolder(private val binding: ItemRowBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item : Movie) {
             with(binding) {
+                // Title and release date:
                 tvTitleOrName.text = item.title
                 tvReleaseOrBirth.text = item.release_date.toString().slice(IntRange(0,3))
+
+                // Poster:
                 val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"
-                Glide.with(root).load(url).centerCrop().into(ivPosterOrPhoto)
+                Glide.with(root).load(url).centerCrop().placeholder(R.drawable.ic_movie_24).into(ivPosterOrPhoto)
+
+                // Navigation:
+                binding.rowBackground.setOnClickListener {
+                    movieVM.setCurrentMovie(item.id)
+                    it.findNavController().navigate(R.id.action_exploreFragment_to_movieDetailsFragment)
+                }
             }
         }
     }

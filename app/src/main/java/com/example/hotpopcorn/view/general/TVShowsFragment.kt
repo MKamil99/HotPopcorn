@@ -17,15 +17,17 @@ class TVShowsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var showVM : TVShowViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Initializing the list:
+        // Binding fragment with layout and VM:
+        _binding = FragmentGeneralListBinding.inflate(inflater, container, false)
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
+
+        // Initializing the list:
         showVM.setTVShowsWithMatchingTitle("")
         showVM.TVShowsWithMatchingTitle.observe(viewLifecycleOwner, {
             displayNewData(showVM.TVShowsWithMatchingTitle.value ?: listOf()) })
 
-        // Access to layout:
-        _binding = FragmentGeneralListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,7 +39,7 @@ class TVShowsFragment : Fragment() {
     private fun displayNewData(shows : List<TVShow>) {
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = TVShowListAdapter(shows)
+            this.adapter = TVShowListAdapter(shows, showVM)
         }
     }
 }

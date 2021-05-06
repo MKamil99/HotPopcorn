@@ -13,7 +13,7 @@ data class Person (
     val birthday: String?,
     val deathDay: String?,
     val place_of_birth: String?,
-    val known_for_department : String, // acting, directing, etc.
+    val known_for_department : String?, // acting, directing, etc.
 
     // Who was played / for what was responsible - used in recycler views:
     val character : String?,

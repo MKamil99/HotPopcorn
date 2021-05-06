@@ -1,8 +1,7 @@
 package com.example.hotpopcorn.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotpopcorn.model.GeneralObject
 import com.example.hotpopcorn.model.Person
@@ -12,7 +11,7 @@ import kotlinx.coroutines.launch
 import retrofit2.awaitResponse
 
 // ViewModel which connects People's Fragments with People's Repository (and API):
-class PersonViewModel(application: Application) : AndroidViewModel(application) {
+class PersonViewModel : ViewModel() {
     private val repository : PersonRepository = PersonRepository(ApiRequest.getAPI())
 
     //                             PERSON SEARCH AND POPULAR PEOPLE
@@ -20,31 +19,17 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
     fun setPeopleWithMatchingName(givenText : String)
     {
         viewModelScope.launch {
-            // if there is no input, list changes into list of popular people;
-            // otherwise this is list of people with matching names
-            val response =
-                    if (givenText != "") { repository.searchForPeople(givenText).awaitResponse() }
-                    else { repository.getPopularPeople().awaitResponse() }
-
-            if (response.isSuccessful)
-            {
-                val data = response.body()!!
-                peopleWithMatchingName.value = data.results.sortedByDescending { it.popularity }
-            }
+            val response = if (givenText != "") repository.searchForPeople(givenText).awaitResponse() else repository.getPopularPeople().awaitResponse()
+            if (response.isSuccessful) peopleWithMatchingName.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
     }
 
     //                                      PERSON DETAILS
     var currentPerson = MutableLiveData<Person>()
-    fun setCurrentPerson(currentPersonID : Int)
-    {
+    fun setCurrentPerson(currentPersonID : Int) {
         viewModelScope.launch {
             val response = repository.getPersonDetails(currentPersonID).awaitResponse()
-            if (response.isSuccessful)
-            {
-                val data = response.body()!!
-                currentPerson.value = data
-            }
+            if (response.isSuccessful) currentPerson.value = response.body()
         }
     }
 
@@ -55,11 +40,9 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
     {
         viewModelScope.launch {
             val response = repository.getMoviesAndTVShowsFromThisPerson(currentPersonID).awaitResponse()
-            if (response.isSuccessful)
-            {
-                val data = response.body()!!
-                currentPersonInCastCollection.value = data.cast.sortedByDescending { it.popularity }
-                currentPersonInCrewCollection.value = data.crew.sortedByDescending { it.popularity }
+            if (response.isSuccessful) {
+                currentPersonInCastCollection.value = response.body()?.cast?.sortedByDescending { it.popularity }
+                currentPersonInCrewCollection.value = response.body()?.crew?.sortedByDescending { it.popularity }
             }
         }
     }

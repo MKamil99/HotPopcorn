@@ -4,7 +4,7 @@ import com.example.hotpopcorn.model.*
 import com.example.hotpopcorn.model.responses.*
 import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -71,15 +71,12 @@ interface ApiRequest {
 
         fun getAPI() : ApiRequest {
             val tempInstance = INSTANCE
-            if (tempInstance != null)
-                return tempInstance
-            else
-            {
-                val comm = Retrofit.Builder()
-                    .baseUrl(WEBSITE).addConverterFactory(GsonConverterFactory.create())
+            return if (tempInstance != null) tempInstance else {
+                val comm = Retrofit.Builder().baseUrl(WEBSITE)
+                    .addConverterFactory(MoshiConverterFactory.create())
                     .build().create(ApiRequest::class.java)
                 INSTANCE = comm
-                return comm
+                comm
             }
         }
     }

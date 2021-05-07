@@ -11,16 +11,29 @@
     <string name="library_towatch_tab">To Watch</string>
 
     <!-- MOVIE / TV SHOW DETAILS -->
-    <string name="descriptionHeader">Description</string>
-    <string name="castHeader">Cast</string>
-    <string name="crewHeader">Crew</string>
+    <string name="description_header">Description</string>
+    <string name="cast_header">Cast</string>
+    <string name="crew_header">Crew</string>
 
     <!-- PERSON DETAILS -->
-    <string name="biographyHeader">Biography</string>
-    <string name="inCastHeader">Performed in</string>
-    <string name="inCrewHeader">Crew of</string>
+    <string name="biography_header">Biography</string>
+    <string name="incast_header">Performed in</string>
+    <string name="increw_header">Crew of</string>
 
     <!-- CONTENT DESCRIPTIONS -->
-    <string name="itemImageViewDescription">Poster, logo or photo</string>
-    <string name="searchButtonDescription">Search</string>
+    <string name="image_description">Poster, logo or photo</string>
+    <string name="search_button_description">Search</string>
+    <string name="logout_button_description">Logout</string>
+
+    <!-- LOGIN AND REGISTER SCREENS  -->
+    <string name="login_screen_title">LOGIN SCREEN</string>
+    <string name="login_screen_button">LOGIN</string>
+    <string name="login_screen_foot1">Don\'t have an account?</string>
+    <string name="login_screen_foot2">Register</string>
+    <string name="register_screen_title">REGISTER SCREEN</string>
+    <string name="register_screen_button">REGISTER</string>
+    <string name="register_screen_foot1">Already have an account?</string>
+    <string name="register_screen_foot2">Login</string>
+    <string name="login_register_hint_email">Email</string>
+    <string name="login_register_hint_password">Password</string>
 </resources>

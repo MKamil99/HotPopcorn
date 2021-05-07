@@ -23,8 +23,7 @@ class MoviesFragment : Fragment() {
         _binding = FragmentGeneralListBinding.inflate(inflater, container, false)
         movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
 
-        // Initializing the list:
-        movieVM.setMoviesWithMatchingTitle("")
+        // Displaying the list:
         movieVM.moviesWithMatchingTitle.observe(viewLifecycleOwner, {
             displayNewData(movieVM.moviesWithMatchingTitle.value ?: listOf()) })
 

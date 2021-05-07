@@ -39,11 +39,11 @@ class PersonDetailsFragment : Fragment() {
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
 
         // Displaying proper headers:
-        binding.tvHeader1.text = getString(R.string.biographyHeader)
+        binding.tvHeader1.text = getString(R.string.biography_header)
         binding.tvHeader1.visibility = View.VISIBLE
-        binding.tvHeader2.text = getString(R.string.inCastHeader)
+        binding.tvHeader2.text = getString(R.string.incast_header)
         binding.tvHeader2.visibility = View.VISIBLE
-        binding.tvHeader3.text = getString(R.string.inCrewHeader)
+        binding.tvHeader3.text = getString(R.string.increw_header)
         binding.tvHeader3.visibility = View.VISIBLE
 
         // Displaying current person's data in TextViews and ImageView:
@@ -139,7 +139,7 @@ class PersonDetailsFragment : Fragment() {
                     binding.tvHeader1.visibility = View.VISIBLE
                     binding.tvHeader2.visibility = View.GONE
                 }
-                else binding.tvHeader1.text = resources.getString(R.string.biographyHeader)
+                else binding.tvHeader1.text = resources.getString(R.string.biography_header)
             }
         })
 

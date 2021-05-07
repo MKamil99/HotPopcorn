@@ -23,8 +23,7 @@ class PeopleFragment : Fragment() {
         _binding = FragmentGeneralListBinding.inflate(inflater, container, false)
         personVM = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
 
-        // Initializing the list:
-        personVM.setPeopleWithMatchingName("")
+        // Displaying the list:
         personVM.peopleWithMatchingName.observe(viewLifecycleOwner, {
             displayNewData(personVM.peopleWithMatchingName.value ?: listOf()) })
 

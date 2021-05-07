@@ -35,9 +35,9 @@ class MovieDetailsFragment : Fragment() {
         companyVM = ViewModelProvider(requireActivity()).get(CompanyViewModel::class.java)
 
         // Displaying proper headers:
-        binding.tvHeader1.text = getString(R.string.descriptionHeader)
-        binding.tvHeader2.text = getString(R.string.castHeader)
-        binding.tvHeader3.text = getString(R.string.crewHeader)
+        binding.tvHeader1.text = getString(R.string.description_header)
+        binding.tvHeader2.text = getString(R.string.cast_header)
+        binding.tvHeader3.text = getString(R.string.crew_header)
 
         // Displaying current movie's data in TextViews and ImageView:
         movieVM.currentMovie.observe(viewLifecycleOwner, {

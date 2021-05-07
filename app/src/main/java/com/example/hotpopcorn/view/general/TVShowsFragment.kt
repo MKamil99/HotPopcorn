@@ -23,8 +23,7 @@ class TVShowsFragment : Fragment() {
         _binding = FragmentGeneralListBinding.inflate(inflater, container, false)
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
 
-        // Initializing the list:
-        showVM.setTVShowsWithMatchingTitle("")
+        // Displaying the list:
         showVM.TVShowsWithMatchingTitle.observe(viewLifecycleOwner, {
             displayNewData(showVM.TVShowsWithMatchingTitle.value ?: listOf()) })
 

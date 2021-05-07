@@ -10,13 +10,14 @@ import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.FragmentMainBinding
 import com.example.hotpopcorn.view.general.WatchedFragment
 import com.example.hotpopcorn.view.general.ToWatchFragment
+import com.google.firebase.auth.FirebaseAuth
 
 class LibraryFragment : Fragment() {
-    // Binding fragment with layout:
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        // Binding fragment with layout:
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -65,9 +66,27 @@ class LibraryFragment : Fragment() {
     // Managing the menu:
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.top_bar_menu, menu)
-        val search = menu.findItem(R.id.search)
-        val searchView = search?.actionView as SearchView
+
+        // Search View:
+        val searchView = menu.findItem(R.id.search)?.actionView as SearchView
         searchView.queryHint = "What are you looking for?"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(givenText : String) : Boolean {
+                // TODO: Save the value so it will be here after coming back from certain title
+                return false
+            }
+
+            override fun onQueryTextChange(givenText : String): Boolean {
+                // TODO: Send data to ViewModel
+                return false
+            }
+        })
+
+        // Logout:
+        menu.findItem(R.id.logout)?.setOnMenuItemClickListener {
+            FirebaseAuth.getInstance().signOut()
+            true
+        }
 
         super.onCreateOptionsMenu(menu, inflater)
     }

@@ -93,7 +93,7 @@ class ExploreFragment : Fragment() {
         searchView.queryHint = "What are you looking for?"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(givenText : String) : Boolean {
-                // Save the value so it will be here after coming back from certain title...
+                // TODO: Save the value so it will be here after coming back from certain title
                 return false
             }
 

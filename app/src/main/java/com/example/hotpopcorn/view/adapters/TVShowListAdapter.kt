@@ -9,6 +9,7 @@ import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.ItemRowBinding
 import com.example.hotpopcorn.model.TVShow
 import com.example.hotpopcorn.viewmodel.TVShowViewModel
+import java.lang.Exception
 
 class TVShowListAdapter(private val shows : List<TVShow>,
                         private val showVM : TVShowViewModel) : RecyclerView.Adapter<TVShowListAdapter.ViewHolder>() {
@@ -24,7 +25,8 @@ class TVShowListAdapter(private val shows : List<TVShow>,
             with(binding) {
                 // Title and release date:
                 tvTitleOrName.text = item.name
-                tvReleaseOrBirth.text = item.first_air_date.toString().slice(IntRange(0,3))
+                try { tvReleaseOrBirth.text = item.first_air_date?.slice(IntRange(0,3)) }
+                catch (e: Exception) { tvReleaseOrBirth.text = "" }
 
                 // Poster:
                 val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.ActivityMainBinding
+import com.example.hotpopcorn.view.authentication.AuthActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         myAccount.addAuthStateListener {
             if (myAccount.currentUser == null) {
                 Toast.makeText(this, "You have logged out successfully.", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, AuthActivity::class.java))
                 finish()
             }
         }

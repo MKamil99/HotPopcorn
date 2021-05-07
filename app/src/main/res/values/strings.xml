@@ -28,12 +28,12 @@
     <!-- LOGIN AND REGISTER SCREENS  -->
     <string name="login_screen_title">LOGIN SCREEN</string>
     <string name="login_screen_button">LOGIN</string>
-    <string name="login_screen_foot1">Don\'t have an account?</string>
-    <string name="login_screen_foot2">Register</string>
+    <string name="login_screen_question">Don\'t have an account?</string>
+    <string name="login_screen_answer">Register</string>
     <string name="register_screen_title">REGISTER SCREEN</string>
     <string name="register_screen_button">REGISTER</string>
-    <string name="register_screen_foot1">Already have an account?</string>
-    <string name="register_screen_foot2">Login</string>
+    <string name="register_screen_question">Already have an account?</string>
+    <string name="register_screen_answer">Login</string>
     <string name="login_register_hint_email">Email</string>
     <string name="login_register_hint_password">Password</string>
 </resources>

@@ -20,10 +20,21 @@
     <string name="incast_header">Performed in</string>
     <string name="increw_header">Crew of</string>
 
+    <!-- TOASTS -->
+    <string name="added_to_towatch">Added to: TO WATCH</string>
+    <string name="added_to_watched">Added to: WATCHED</string>
+    <string name="added_to_none">Removed from both lists</string>
+    <string name="logged_out">You have successfully logged out</string>
+    <string name="logged_in">You have successfully logged in</string>
+    <string name="registered">You have successfully registered</string>
+    <string name="missing_email">Please enter the email</string>
+    <string name="missing_password">Please enter the password</string>
+
     <!-- CONTENT DESCRIPTIONS -->
     <string name="image_description">Poster, logo or photo</string>
     <string name="search_button_description">Search</string>
     <string name="logout_button_description">Logout</string>
+    <string name="details_button_description">Save the movie / TV Show</string>
 
     <!-- LOGIN AND REGISTER SCREENS  -->
     <string name="login_screen_title">LOGIN SCREEN</string>

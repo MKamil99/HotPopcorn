@@ -30,21 +30,21 @@ class LoginFragment : Fragment() {
 
         // Logging process:
         binding.btnConfirm.setOnClickListener {
-            val email = binding.etEmail.text.toString().trim { it <= ' ' }
-            val password = binding.etPassword.text.toString().trim { it <= ' '}
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
             when {
                 // One of the inputs is empty:
-                TextUtils.isEmpty(email) -> Toast.makeText(requireActivity(), "Please enter the email.", Toast.LENGTH_SHORT).show()
-                TextUtils.isEmpty(password) -> Toast.makeText(requireActivity(), "Please enter the password.", Toast.LENGTH_SHORT).show()
+                TextUtils.isEmpty(email) -> showToast(getString(R.string.missing_email))
+                TextUtils.isEmpty(password) -> showToast(getString(R.string.missing_password))
 
                 // Everything is okay:
                 else -> {
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(requireActivity(), "You have logged in successfully.", Toast.LENGTH_SHORT).show()
+                            showToast(getString(R.string.logged_in))
                             startActivity(Intent(requireActivity(), MainActivity::class.java))
                             requireActivity().finish()
-                        } else Toast.makeText(requireActivity(), task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+                        } else showToast(task.exception?.message.toString())
                     }
                 }
             }
@@ -60,4 +60,6 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun showToast(message : String) { Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show() }
 }

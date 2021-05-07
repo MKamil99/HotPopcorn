@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.FragmentDetailsBinding
@@ -52,8 +53,7 @@ class PersonDetailsFragment : Fragment() {
             binding.tvTitleOrName.text = it.name
 
             // Date of birth:
-            if (it.birthday.isNullOrEmpty())
-                binding.tvYear.visibility = View.GONE
+            if (it.birthday.isNullOrEmpty()) binding.tvYear.visibility = View.GONE
             else {
                 binding.tvYear.text = "Born: ${it.birthday}"
 
@@ -69,8 +69,7 @@ class PersonDetailsFragment : Fragment() {
             }
 
             // Date of death:
-            if (it.deathDay.isNullOrEmpty() || it.birthday.isNullOrEmpty())
-                binding.tvYear2.visibility = View.GONE
+            if (it.deathDay.isNullOrEmpty() || it.birthday.isNullOrEmpty()) binding.tvYear2.visibility = View.GONE
             else {
                 binding.tvYear2.text = "Died: ${it.deathDay}"
                 binding.tvYear2.visibility = View.VISIBLE
@@ -102,17 +101,17 @@ class PersonDetailsFragment : Fragment() {
             binding.tvAvgVote.visibility = View.GONE
 
             // Biography:
-            if (it.biography.isNullOrEmpty())
-            {
+            if (it.biography.isNullOrEmpty()) {
                 binding.tvHeader1.visibility = View.GONE
                 binding.tvDescription.visibility = View.GONE
-            }
-            else
-            {
+            } else {
                 binding.tvDescription.text = it.biography
                 binding.tvDescription.visibility = View.VISIBLE
                 binding.tvHeader1.visibility = View.VISIBLE
             }
+
+            // Button for saving:
+            binding.btnSave.visibility = View.GONE
 
             // Updating data of movie and TV shows that current person performed in or was in crew of:
             personVM.setCurrentPersonCollection(it.id)
@@ -120,47 +119,37 @@ class PersonDetailsFragment : Fragment() {
 
         // Displaying current person's inCast data in RecyclerView:
         personVM.currentPersonInCastCollection.observe(viewLifecycleOwner, {
-            displayNewInCastData(personVM.currentPersonInCastCollection.value ?: listOf())
+            displayNewData(personVM.currentPersonInCastCollection.value ?: listOf(), binding.rvCast, "inCast")
 
             // Making sure that everything is well displayed:
-            if (personVM.currentPersonInCastCollection.value.isNullOrEmpty())
-            {
+            if (personVM.currentPersonInCastCollection.value.isNullOrEmpty()) {
                 binding.tvHeader2.visibility = View.GONE
                 binding.rvCast.visibility = View.GONE
-            }
-            else
-            {
+            } else {
                 binding.tvHeader2.visibility = View.VISIBLE
                 binding.rvCast.visibility = View.VISIBLE
 
-                if (personVM.currentPerson.value?.biography.isNullOrEmpty())
-                {
+                if (personVM.currentPerson.value?.biography.isNullOrEmpty()) {
                     binding.tvHeader1.text = binding.tvHeader2.text
                     binding.tvHeader1.visibility = View.VISIBLE
                     binding.tvHeader2.visibility = View.GONE
-                }
-                else binding.tvHeader1.text = resources.getString(R.string.biography_header)
+                } else binding.tvHeader1.text = resources.getString(R.string.biography_header)
             }
         })
 
         // Displaying current person's inCrew data in RecyclerView:
         personVM.currentPersonInCrewCollection.observe(viewLifecycleOwner, {
-            displayNewInCrewData(personVM.currentPersonInCrewCollection.value ?: listOf())
+            displayNewData(personVM.currentPersonInCrewCollection.value ?: listOf(), binding.rvCrew, "inCrew")
 
             // Making sure that everything is well displayed:
-            if (personVM.currentPersonInCrewCollection.value.isNullOrEmpty())
-            {
+            if (personVM.currentPersonInCrewCollection.value.isNullOrEmpty()) {
                 binding.tvHeader3.visibility = View.GONE
                 binding.rvCrew.visibility = View.GONE
-            }
-            else
-            {
+            } else {
                 binding.tvHeader3.visibility = View.VISIBLE
                 binding.rvCrew.visibility = View.VISIBLE
 
-                if (personVM.currentPerson.value?.biography.isNullOrEmpty()
-                    && personVM.currentPersonInCastCollection.value.isNullOrEmpty())
-                {
+                if (personVM.currentPerson.value?.biography.isNullOrEmpty() && personVM.currentPersonInCastCollection.value.isNullOrEmpty()) {
                     binding.tvHeader1.text = binding.tvHeader3.text
                     binding.tvHeader1.visibility = View.VISIBLE
                     binding.tvHeader3.visibility = View.GONE
@@ -176,16 +165,10 @@ class PersonDetailsFragment : Fragment() {
         _binding = null
     }
 
-    private fun displayNewInCastData(moviesAndTVShows: List<GeneralObject>) {
-        binding.rvCast.apply {
+    private fun displayNewData(moviesAndTVShows: List<GeneralObject>, recyclerView : RecyclerView, inCastOrInCrew: String) {
+        recyclerView.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = MoviesAndTVShowsInPersonAdapter(moviesAndTVShows, movieVM, showVM, "inCast")
-        }
-    }
-    private fun displayNewInCrewData(moviesAndTVShows: List<GeneralObject>) {
-        binding.rvCrew.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = MoviesAndTVShowsInPersonAdapter(moviesAndTVShows, movieVM, showVM, "inCrew")
+            this.adapter = MoviesAndTVShowsInPersonAdapter(moviesAndTVShows, movieVM, showVM, inCastOrInCrew)
         }
     }
 }

@@ -18,44 +18,38 @@ class CompanyDetailsFragment : Fragment() {
     private lateinit var companyVM : CompanyViewModel
 
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Binding fragment with layout and VM:
         _binding = FragmentCompanyDetailsBinding.inflate(inflater, container, false)
         companyVM = ViewModelProvider(requireActivity()).get(CompanyViewModel::class.java)
 
         // Displaying current company's data in TextViews and ImageView:
-        companyVM.currentCompany.observe(viewLifecycleOwner, {
+        companyVM.currentCompany.observe(viewLifecycleOwner, { currentCompany ->
             // Name:
-            binding.tvCompanyName.text = it.name
+            binding.tvCompanyName.text = currentCompany.name
 
             // HeadQuarters:
-            if (!it.headquarters.isNullOrEmpty())
-            {
-                binding.tvCompanyHQ.text = it.headquarters
+            if (!currentCompany.headquarters.isNullOrEmpty()) {
+                binding.tvCompanyHQ.text = currentCompany.headquarters
                 binding.tvCompanyHQ.visibility = View.VISIBLE
-            }
-            else binding.tvCompanyHQ.visibility = View.GONE
+            } else binding.tvCompanyHQ.visibility = View.GONE
 
             // Origin country:
-            if (!it.origin_country.isNullOrEmpty())
-                binding.tvCompanyHQ.text = "${it.headquarters} (${it.origin_country})"
+            if (!currentCompany.origin_country.isNullOrEmpty())
+                binding.tvCompanyHQ.text = "${currentCompany.headquarters} (${currentCompany.origin_country})"
 
             // Homepage:
-            if (!it.homepage.isNullOrEmpty())
-            {
-                binding.tvHomepage.text = it.homepage
+            if (!currentCompany.homepage.isNullOrEmpty()) {
+                binding.tvHomepage.text = currentCompany.homepage
                 binding.tvHomepage.visibility = View.VISIBLE
-            }
-            else binding.tvHomepage.visibility = View.GONE
+            } else binding.tvHomepage.visibility = View.GONE
 
             // Logo:
-            if (!it.logo_path.isNullOrEmpty())
-            {
-                val url = "https://image.tmdb.org/t/p/w185${it.logo_path}"
+            if (!currentCompany.logo_path.isNullOrEmpty()) {
+                val url = "https://image.tmdb.org/t/p/w185${currentCompany.logo_path}"
                 Glide.with(binding.root).load(url).override(500, 200).fitCenter().into(binding.ivCompanyLogo)
                 binding.ivCompanyLogo.visibility = View.VISIBLE
-            }
-            else binding.ivCompanyLogo.visibility = View.GONE
+            } else binding.ivCompanyLogo.visibility = View.GONE
         })
 
         return binding.root

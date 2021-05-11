@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -90,7 +91,7 @@ class ExploreFragment : Fragment() {
 
         // Search View:
         val searchView = menu.findItem(R.id.search)?.actionView as SearchView
-        searchView.queryHint = "What are you looking for?"
+        searchView.queryHint = getString(R.string.explore_searchbar_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(givenText : String) : Boolean {
                 // TODO: Save the value so it will be here after coming back from certain title
@@ -107,10 +108,27 @@ class ExploreFragment : Fragment() {
 
         // Logout:
         menu.findItem(R.id.logout)?.setOnMenuItemClickListener {
-            FirebaseAuth.getInstance().signOut()
+            logOut()
             true
         }
 
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+
+    private fun logOut() {
+        // Remove client-server connection with Firebase:
+        FirebaseAuth.getInstance().signOut()
+
+        // Disable auto-login:
+        val preferences = activity?.getSharedPreferences(
+            getString(R.string.preferenceGroupName), Context.MODE_PRIVATE)
+        if (preferences != null) {
+            with (preferences.edit()) {
+                putBoolean(getString(R.string.preferenceStateName), false)
+                apply()
+            }
+        }
     }
 }

@@ -2,12 +2,9 @@ package com.example.hotpopcorn.view.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +23,7 @@ import com.google.android.gms.tasks.Task
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MovieDetailsFragment : Fragment() {
+class MovieDetailsFragment : AbstractDetailsFragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 

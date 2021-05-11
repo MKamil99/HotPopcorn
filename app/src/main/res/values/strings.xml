@@ -10,6 +10,10 @@
     <string name="library_watched_tab">Watched</string>
     <string name="library_towatch_tab">To Watch</string>
 
+    <!-- SEARCHBAR HINTS -->
+    <string name="explore_searchbar_hint">Search for movie, person or TV show…</string>
+    <string name="library_searchbar_hint">Search for movie or TV show…</string>
+
     <!-- MOVIE / TV SHOW DETAILS -->
     <string name="description_header">Description</string>
     <string name="cast_header">Cast</string>
@@ -20,15 +24,10 @@
     <string name="incast_header">Performed in</string>
     <string name="increw_header">Crew of</string>
 
-    <!-- TOASTS -->
+    <!-- DETAILS TOASTS -->
     <string name="added_to_towatch">Added to: TO WATCH</string>
     <string name="added_to_watched">Added to: WATCHED</string>
     <string name="added_to_none">Removed from both lists</string>
-    <string name="logged_out">You have successfully logged out</string>
-    <string name="logged_in">You have successfully logged in</string>
-    <string name="registered">You have successfully registered</string>
-    <string name="missing_email">Please enter the email</string>
-    <string name="missing_password">Please enter the password</string>
 
     <!-- CONTENT DESCRIPTIONS -->
     <string name="image_description">Poster, logo or photo</string>
@@ -45,6 +44,24 @@
     <string name="register_screen_button">REGISTER</string>
     <string name="register_screen_question">Already have an account?</string>
     <string name="register_screen_answer">Login</string>
-    <string name="login_register_hint_email">Email</string>
+
+    <!-- LOGIN AND REGISTER HINTS -->
+    <string name="login_register_hint_email">Email address</string>
     <string name="login_register_hint_password">Password</string>
+    <string name="login_register_hint_password_repeat">Repeat password</string>
+
+    <!-- LOGIN AND REGISTER TOASTS -->
+    <string name="logged_out">You have successfully logged out</string>
+    <string name="logged_in">You have successfully logged in</string>
+    <string name="registered">You have successfully registered</string>
+    <string name="missing_email">Please enter the email address</string>
+    <string name="missing_password">Please enter the password</string>
+    <string name="missing_repeated_password">Please repeat the password</string>
+    <string name="passwords_matching_error">Passwords don\'t match</string>
+
+    <!-- SHARED PREFERENCES -->
+    <string name="preferenceGroupName">rememberedUser</string>
+    <string name="preferenceEmailName">rememberedEmail</string>
+    <string name="preferencePasswordName">rememberedPassword</string>
+    <string name="preferenceStateName">rememberedIsLoggedState</string>
 </resources>

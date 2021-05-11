@@ -6,7 +6,7 @@ import android.text.TextUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hotpopcorn.R
-import com.example.hotpopcorn.view.MainActivity
+import com.example.hotpopcorn.view.main.MainActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 

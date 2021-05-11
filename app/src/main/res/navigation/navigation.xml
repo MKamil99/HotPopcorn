@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/libraryFragment"
-        android:name="com.example.hotpopcorn.view.LibraryFragment"
+        android:name="com.example.hotpopcorn.view.main.LibraryFragment"
         android:label="LibraryFragment" >
         <action
             android:id="@+id/action_libraryFragment_to_movieDetailsFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.example.hotpopcorn.view.ExploreFragment"
+        android:name="com.example.hotpopcorn.view.main.ExploreFragment"
         android:label="ExploreFragment" >
         <action
             android:id="@+id/action_exploreFragment_to_movieDetailsFragment"

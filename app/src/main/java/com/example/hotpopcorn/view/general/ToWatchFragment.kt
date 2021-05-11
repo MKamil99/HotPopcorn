@@ -30,8 +30,8 @@ class ToWatchFragment : Fragment() {
         firebaseVM = ViewModelProvider(requireActivity()).get(FirebaseViewModel::class.java)
 
         // Displaying the list:
-        firebaseVM.moviesAndShowsThatAreToWatch.observe(viewLifecycleOwner, {
-            displayNewData(firebaseVM.moviesAndShowsThatAreToWatch.value ?: listOf()) })
+        firebaseVM.matchingMoviesAndShowsThatAreToWatch.observe(viewLifecycleOwner, {
+            displayNewData(firebaseVM.matchingMoviesAndShowsThatAreToWatch.value ?: listOf()) })
 
         return binding.root
     }

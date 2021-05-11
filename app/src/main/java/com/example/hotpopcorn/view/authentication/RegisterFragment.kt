@@ -23,7 +23,7 @@ class RegisterFragment : AbstractAuthFragment() {
         binding.tvAnswer.text = getString(R.string.register_screen_answer)
         binding.tilPasswordRepeat.visibility = View.VISIBLE
 
-        // Logging process:
+        // Registering process:
         binding.btnConfirm.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()

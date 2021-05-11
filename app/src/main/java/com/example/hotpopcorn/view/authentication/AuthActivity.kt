@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.ActivityAuthBinding
-import com.example.hotpopcorn.view.MainActivity
+import com.example.hotpopcorn.view.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class AuthActivity : AppCompatActivity() {
         autoLogin()
     }
 
-    // Trying to login if isLogged is true (and other conditions):
+    // Trying to log in if isLogged is true (and other conditions):
     private fun autoLogin() {
         val rememberedIsLoggedState = this.getSharedPreferences(
             getString(R.string.preferenceGroupName), Context.MODE_PRIVATE)?.getBoolean(
@@ -41,8 +41,8 @@ class AuthActivity : AppCompatActivity() {
                 rememberedEmail, rememberedPassword).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     showToast(getString(R.string.logged_in))
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    startActivity(Intent(this, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
                 } else showToast(task.exception?.message.toString())
             }
         }

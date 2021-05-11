@@ -11,12 +11,12 @@
         android:theme="@style/Theme.HotPopcorn"
         tools:ignore="AllowBackup">
         <activity android:name=".view.authentication.AuthActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+            android:theme="@style/Theme.HotPopcorn.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MainActivity"/>
+        <activity android:name=".view.main.MainActivity"/>
     </application>
 </manifest>

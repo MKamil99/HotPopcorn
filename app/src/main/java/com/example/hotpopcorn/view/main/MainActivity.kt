@@ -1,8 +1,10 @@
-package com.example.hotpopcorn.view
+package com.example.hotpopcorn.view.main
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Binding fragment with layout and VM:
+        // Binding activity with layout and VM:
         binding = ActivityMainBinding.inflate(layoutInflater)
         firebaseVM = ViewModelProvider(this).get(FirebaseViewModel::class.java)
         setContentView(binding.root)
@@ -35,9 +37,9 @@ class MainActivity : AppCompatActivity() {
         val myAccount = FirebaseAuth.getInstance()
         myAccount.addAuthStateListener {
             if (myAccount.currentUser == null) {
-                Toast.makeText(this, getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, AuthActivity::class.java))
-                finish()
+                showToast(getString(R.string.logged_out))
+                startActivity(Intent(this, AuthActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
             }
         }
 
@@ -54,15 +56,44 @@ class MainActivity : AppCompatActivity() {
                     val newRow = child.getValue(SavedObject::class.java)
                     if (newRow != null) newRows.add(newRow)
                 }
-                firebaseVM.setSavedObjectFromFirebase(newRows)
+                firebaseVM.setSavedObjectsFromFirebase(newRows)
             }
-            override fun onCancelled(error: DatabaseError) { }
+            override fun onCancelled(error: DatabaseError) {
+                showToast(error.message)
+            }
         })
+    }
+
+    // Managing the menu:
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_bar_menu, menu)
+
+        // Logout Icon with logging out process:
+        menu?.findItem(R.id.logout)?.setOnMenuItemClickListener {
+            // Remove client-server connection with Firebase:
+            FirebaseAuth.getInstance().signOut()
+
+            // Disable auto-login:
+            val preferences = this.getSharedPreferences(getString(R.string.preferenceGroupName), Context.MODE_PRIVATE)
+            if (preferences != null) {
+                with (preferences.edit()) {
+                    putBoolean(getString(R.string.preferenceStateName), false)
+                    apply()
+                }
+            }
+            true
+        }
+        return true
     }
 
     // Setting up navigation that can be seen at the bottom of the screen:
     private fun setUpNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         NavigationUI.setupWithNavController(binding.btmNav, navHostFragment.navController)
+    }
+
+    // Showing message:
+    private fun showToast(message : String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

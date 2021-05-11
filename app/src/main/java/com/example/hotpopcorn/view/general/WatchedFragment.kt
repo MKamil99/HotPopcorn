@@ -30,8 +30,8 @@ class WatchedFragment : Fragment() {
         firebaseVM = ViewModelProvider(requireActivity()).get(FirebaseViewModel::class.java)
 
         // Displaying the list:
-        firebaseVM.moviesAndShowsThatHaveBeenWatched.observe(viewLifecycleOwner, {
-            displayNewData(firebaseVM.moviesAndShowsThatHaveBeenWatched.value ?: listOf()) })
+        firebaseVM.matchingMoviesAndShowsThatHaveBeenWatched.observe(viewLifecycleOwner, {
+            displayNewData(firebaseVM.matchingMoviesAndShowsThatHaveBeenWatched.value ?: listOf()) })
 
         return binding.root
     }

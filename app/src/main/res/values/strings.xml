@@ -64,4 +64,5 @@
     <string name="preferenceEmailName">rememberedEmail</string>
     <string name="preferencePasswordName">rememberedPassword</string>
     <string name="preferenceStateName">rememberedIsLoggedState</string>
+    <string name="auth_image_description">Logo</string>
 </resources>

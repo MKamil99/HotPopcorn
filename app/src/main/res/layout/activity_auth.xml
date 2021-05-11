@@ -7,38 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".view.authentication.AuthActivity">
 
-    <!-- AppBar imitation -->
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/purple_700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <TextView
-            android:id="@+id/tv_appTitle"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-    </FrameLayout>
-
     <!-- Fragments: Login and Register -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_auth"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/navigation_auth" />
+        app:navGraph="@navigation/navigation_auth"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

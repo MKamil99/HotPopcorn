@@ -30,8 +30,8 @@ abstract class AbstractAuthFragment : Fragment() {
                     if (task.isSuccessful) {
                         saveUserForNextSessions(email, password)
                         showToast(successMessage)
-                        startActivity(Intent(requireActivity(), MainActivity::class.java))
-                        requireActivity().finish()
+                        startActivity(Intent(requireActivity(), MainActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
                     } else showToast(task.exception?.message.toString())
                 }
             }
@@ -43,7 +43,6 @@ abstract class AbstractAuthFragment : Fragment() {
         val preferences = activity?.getSharedPreferences(
             getString(R.string.preferenceGroupName), Context.MODE_PRIVATE) ?: return
         with (preferences.edit()) {
-            putBoolean(getString(R.string.preferenceStateName), true)
             putString(getString(R.string.preferenceEmailName), email)
             putString(getString(R.string.preferencePasswordName), password)
             apply()

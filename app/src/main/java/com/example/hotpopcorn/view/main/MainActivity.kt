@@ -1,6 +1,5 @@
 package com.example.hotpopcorn.view.main
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Binding activity with layout and VM:
-        binding = ActivityMainBinding.inflate(layoutInflater)
         firebaseVM = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavigation()
 
@@ -70,17 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         // Logout Icon with logging out process:
         menu?.findItem(R.id.logout)?.setOnMenuItemClickListener {
-            // Remove client-server connection with Firebase:
             FirebaseAuth.getInstance().signOut()
-
-            // Disable auto-login:
-            val preferences = this.getSharedPreferences(getString(R.string.preferenceGroupName), Context.MODE_PRIVATE)
-            if (preferences != null) {
-                with (preferences.edit()) {
-                    putBoolean(getString(R.string.preferenceStateName), false)
-                    apply()
-                }
-            }
             true
         }
         return true

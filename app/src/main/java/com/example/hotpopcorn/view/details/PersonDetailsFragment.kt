@@ -45,76 +45,21 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Displaying current person's data in TextViews and ImageView:
         personVM.currentPerson.observe(viewLifecycleOwner, { currentPerson ->
-            // Name:
+            // Displaying current person's data in TextViews and ImageView:
             binding.tvTitleOrName.text = currentPerson.name
-
-            // Date of birth:
-            if (currentPerson.birthday.isNullOrEmpty()) binding.tvYear.visibility = View.GONE
-            else {
-                binding.tvYear.text = "Born: ${currentPerson.birthday}"
-
-                // Age:
-                if (currentPerson.deathDay.isNullOrEmpty()) {
-                    val today = LocalDate.now()
-                    val then = LocalDate.parse(currentPerson.birthday)
-                    val diff = ChronoUnit.YEARS.between(then, today)
-                    binding.tvYear.text = binding.tvYear.text.toString() + " (${diff} years old)"
-                }
-
-                binding.tvYear.visibility = View.VISIBLE
-            }
-
-            // Date of death:
-            if (currentPerson.deathDay.isNullOrEmpty() || currentPerson.birthday.isNullOrEmpty())
-                binding.tvYear2.visibility = View.GONE
-            else {
-                binding.tvYear2.text = "Died: ${currentPerson.deathDay}"
-                binding.tvYear2.visibility = View.VISIBLE
-            }
-
-            // Runtime:
+            displayDates(currentPerson.birthday, currentPerson.deathDay)
             binding.tvRuntime.visibility = View.GONE
-
-            // Place of birth:
-            binding.tvOrigin.text = "Place of Birth: " + currentPerson.place_of_birth
-            if (currentPerson.place_of_birth.isNullOrEmpty())
-                binding.tvOrigin.visibility = View.GONE
-            else binding.tvOrigin.visibility = View.VISIBLE
-
-            // Department:
-            binding.tvGenresOrKnownFor.text = "Known for: " + currentPerson.known_for_department
-            if (currentPerson.known_for_department.isNullOrEmpty()) binding.tvGenresOrKnownFor.visibility = View.GONE
-            else binding.tvGenresOrKnownFor.visibility = View.VISIBLE
-
-            // Photo:
-            val url = "https://image.tmdb.org/t/p/w185${currentPerson.profile_path}"
-            val placeholderImg: Int = when (currentPerson.gender) {
-                2 -> R.drawable.ic_person_24_man        // man
-                1 -> R.drawable.ic_person_24_woman      // woman
-                else -> R.drawable.ic_person_24_human   // unknown
-            }
-            Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderImg).into(binding.ivPosterOrPhoto)
-
-            // Average vote:
+            displayDepartment(currentPerson.known_for_department)
+            displayPlaceOfBirth(currentPerson.place_of_birth)
+            binding.tvMainCompany.visibility = View.GONE
+            displayPhoto(currentPerson.profile_path, currentPerson.gender)
             binding.tvAvgVote.visibility = View.GONE
+            displayBiography(currentPerson.biography)
 
-            // Biography:
-            if (currentPerson.biography.isNullOrEmpty()) {
-                binding.tvHeader1.visibility = View.GONE
-                binding.tvDescription.visibility = View.GONE
-            } else {
-                binding.tvDescription.text = currentPerson.biography
-                binding.tvDescription.visibility = View.VISIBLE
-                binding.tvHeader1.visibility = View.VISIBLE
-            }
-
-            // Button for saving:
+            // Floating Action Button:
             binding.btnSave.visibility = View.GONE
 
             // Updating data of movie and TV shows that current person performed in or was in crew of:
@@ -139,6 +84,74 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         binding.tvHeader2.visibility = View.VISIBLE
         binding.tvHeader3.text = getString(R.string.increw_header)
         binding.tvHeader3.visibility = View.VISIBLE
+    }
+
+    // Displaying current person's photo:
+    private fun displayPhoto(profilePath : String?, gender : Int) {
+        val url = "https://image.tmdb.org/t/p/w185$profilePath"
+        val placeholderImg: Int = when (gender) {
+            2 -> R.drawable.ic_person_24_man        // man
+            1 -> R.drawable.ic_person_24_woman      // woman
+            else -> R.drawable.ic_person_24_human   // unknown
+        }
+        Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderImg).into(binding.ivPosterOrPhoto)
+    }
+
+    // Displaying current person's days of birth and death:
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("SetTextI18n")
+    private fun displayDates(birthDay : String?, deathDay : String?) {
+        // Date of birth:
+        if (birthDay.isNullOrEmpty()) binding.tvYear.visibility = View.GONE
+        else {
+            binding.tvYear.text = "Born: $birthDay"
+
+            // Age:
+            if (deathDay.isNullOrEmpty()) {
+                val today = LocalDate.now()
+                val then = LocalDate.parse(birthDay)
+                val diff = ChronoUnit.YEARS.between(then, today)
+                binding.tvYear.text = binding.tvYear.text.toString() + " (${diff} years old)"
+            }
+
+            binding.tvYear.visibility = View.VISIBLE
+        }
+
+        // Date of death:
+        if (deathDay.isNullOrEmpty() || birthDay.isNullOrEmpty())
+            binding.tvYear2.visibility = View.GONE
+        else {
+            binding.tvYear2.text = "Died: $deathDay"
+            binding.tvYear2.visibility = View.VISIBLE
+        }
+    }
+
+    // Displaying current person's department (known-for):
+    @SuppressLint("SetTextI18n")
+    private fun displayDepartment(department : String?) {
+        binding.tvGenresOrKnownFor.text = "Known for: $department"
+        if (department.isNullOrEmpty()) binding.tvGenresOrKnownFor.visibility = View.GONE
+        else binding.tvGenresOrKnownFor.visibility = View.VISIBLE
+    }
+
+    // Displaying current person's place of birth:
+    @SuppressLint("SetTextI18n")
+    private fun displayPlaceOfBirth(placeOfBirth : String?) {
+        binding.tvOrigin.text = "Place of Birth: $placeOfBirth"
+        if (placeOfBirth.isNullOrEmpty()) binding.tvOrigin.visibility = View.GONE
+        else binding.tvOrigin.visibility = View.VISIBLE
+    }
+
+    // Displaying current person's biography:
+    private fun displayBiography(biography : String?) {
+        if (biography.isNullOrEmpty()) {
+            binding.tvHeader1.visibility = View.GONE
+            binding.tvDescription.visibility = View.GONE
+        } else {
+            binding.tvDescription.text = biography
+            binding.tvDescription.visibility = View.VISIBLE
+            binding.tvHeader1.visibility = View.VISIBLE
+        }
     }
 
     // Updating data in single RecyclerView (for cast or for crew):

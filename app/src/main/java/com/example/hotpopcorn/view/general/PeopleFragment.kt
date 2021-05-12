@@ -14,10 +14,11 @@ class PeopleFragment : AbstractGeneralFragment() {
     private lateinit var personVM : PersonViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         personVM = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
         personVM.peopleWithMatchingName.observe(viewLifecycleOwner, {
             displayNewData(personVM.peopleWithMatchingName.value ?: listOf()) })
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     private fun displayNewData(people : List<Person>) {

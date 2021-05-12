@@ -7,17 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.hotpopcorn.R
-import com.example.hotpopcorn.databinding.FragmentAuthBinding
-import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : AbstractAuthFragment() {
-    private var _binding: FragmentAuthBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Binding fragment with layout:
-        _binding = FragmentAuthBinding.inflate(inflater, container, false)
-
+        super.onCreateView(inflater, container, savedInstanceState)
         // Displaying proper info:
         binding.tvScreenTitle.text = getString(R.string.login_screen_title)
         binding.btnConfirm.text = getString(R.string.login_screen_button)
@@ -28,10 +21,7 @@ class LoginFragment : AbstractAuthFragment() {
 
         // Logging process:
         binding.btnConfirm.setOnClickListener {
-            val email = binding.etEmail.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
-            singInOrSignUp(FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password),
-                email, password, password, getString(R.string.logged_in))
+            loginOrRegister("login", getString(R.string.logged_in))
         }
 
         // Going to Register Screen:
@@ -40,11 +30,6 @@ class LoginFragment : AbstractAuthFragment() {
         }
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     // Displaying login and password that are saved in preferences:

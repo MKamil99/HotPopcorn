@@ -42,6 +42,7 @@ class ExploreFragment : AbstractMainFragment() {
         // Search View:
         val searchView = menu.findItem(R.id.search)?.actionView as SearchView
         searchView.queryHint = getString(R.string.explore_searchbar_hint)
+        searchView.inputType = 33 // eliminates "SPAN_EXCLUSIVE_EXCLUSIVE spans cannot have a zero length" error
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(givenText : String) : Boolean {
                 // TODO: Save the value so it will be here after coming back from certain title

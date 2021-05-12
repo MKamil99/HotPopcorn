@@ -14,10 +14,11 @@ class TVShowsFragment : AbstractGeneralFragment() {
     private lateinit var showVM : TVShowViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
         showVM.TVShowsWithMatchingTitle.observe(viewLifecycleOwner, {
             displayNewData(showVM.TVShowsWithMatchingTitle.value ?: listOf()) })
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     private fun displayNewData(shows : List<TVShow>) {

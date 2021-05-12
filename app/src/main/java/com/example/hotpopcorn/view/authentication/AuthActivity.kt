@@ -1,7 +1,9 @@
 package com.example.hotpopcorn.view.authentication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hotpopcorn.databinding.ActivityAuthBinding
 import com.example.hotpopcorn.view.main.MainActivity
@@ -21,7 +23,18 @@ class AuthActivity : AppCompatActivity() {
         // Stay in Auth Activity and load the layout, if user have logged out earlier:
         else {
             binding = ActivityAuthBinding.inflate(layoutInflater)
+            binding.navHostFragmentAuth.setOnClickListener { hideKeyboard() }
             setContentView(binding.root)
+        }
+    }
+
+    // Hiding keyboard and losing focus:
+    private fun hideKeyboard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+            view.clearFocus()
         }
     }
 }

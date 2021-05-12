@@ -35,7 +35,7 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
         firebaseVM.moviesAndShowsOverall.observe(viewLifecycleOwner, {
             // Checking database:
             val savedObject = firebaseVM.moviesAndShowsOverall.value?.find { savedObject ->
-                savedObject.movieOrTVShowID == currentObjectID && savedObject.media_type == currentObjectMediaType }
+                savedObject.movieOrTVShowID == currentObjectID && savedObject.mediaType == currentObjectMediaType }
             val objectToSave = SavedObject(currentObjectMediaType, currentObjectID, currentObjectTitle,
                 currentObjectPosterPath, currentObjectReleaseDate, Date().time,
                 savedObject != null) // if is in the lists, move from 'To Watch' to 'Watched' (seen = true)

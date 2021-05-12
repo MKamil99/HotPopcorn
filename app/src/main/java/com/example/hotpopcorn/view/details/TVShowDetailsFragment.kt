@@ -10,8 +10,9 @@ class TVShowDetailsFragment : AbstractShowOrMovieDetailsFragment() {
     private lateinit var showVM : TVShowViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

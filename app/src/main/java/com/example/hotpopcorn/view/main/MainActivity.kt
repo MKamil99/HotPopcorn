@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -14,43 +15,25 @@ import com.example.hotpopcorn.model.SavedObject
 import com.example.hotpopcorn.view.authentication.AuthActivity
 import com.example.hotpopcorn.viewmodel.FirebaseViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseVM : FirebaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Binding with layout:
         super.onCreate(savedInstanceState)
-
-        // Binding activity with layout and VM:
-        firebaseVM = ViewModelProvider(this).get(FirebaseViewModel::class.java)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavigation()
 
-        // Saving database reference:
+        // Saving database reference and starting to listen to it:
         val myAccount = FirebaseAuth.getInstance()
-        val ref = FirebaseDatabase.getInstance().getReference("users/${myAccount.uid}")
-        firebaseVM.setCurrentUserRef(ref)
-
-        // Listening to Firebase Realtime Database and saving data that will be displayed in Library Fragment:
-        ref.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val newRows = ArrayList<SavedObject>()
-                for (child in snapshot.children) {
-                    val newRow = child.getValue(SavedObject::class.java)
-                    if (newRow != null) newRows.add(newRow)
-                }
-                firebaseVM.setSavedObjectsFromFirebase(newRows)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                showToast(error.message)
-            }
-        })
+        val dbReference = FirebaseDatabase.getInstance().getReference("users/${myAccount.uid}")
+        firebaseVM = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        firebaseVM.setCurrentUserRef(dbReference)
+        addFirebaseListener(dbReference)
 
         // Returning to Login Screen after logging out:
         myAccount.addAuthStateListener {
@@ -75,10 +58,33 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    // Listening to Firebase Realtime Database and saving data that will be displayed in Library Fragment:
+    private fun addFirebaseListener(ref : DatabaseReference) {
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val newRows = ArrayList<SavedObject>()
+                for (child in snapshot.children) {
+                    val newRow = child.getValue(SavedObject::class.java)
+                    if (newRow != null) newRows.add(newRow)
+                }
+                firebaseVM.setSavedObjectsFromFirebase(newRows)
+            }
+            override fun onCancelled(error: DatabaseError) { showToast(error.message) }
+        })
+    }
+
     // Setting up navigation that can be seen at the bottom of the screen:
     private fun setUpNavigation() {
+        // Functionality:
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         NavigationUI.setupWithNavController(binding.btmNav, navHostFragment.navController)
+
+        // Hiding in Details:
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.exploreFragment || destination.id == R.id.libraryFragment)
+                binding.btmNav.visibility = View.VISIBLE
+            else binding.btmNav.visibility = View.GONE
+        }
     }
 
     // Showing message:

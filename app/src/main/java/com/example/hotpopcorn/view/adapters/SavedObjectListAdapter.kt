@@ -38,7 +38,7 @@ class SavedObjectListAdapter(private val savedObjects : List<SavedObject>,
                 binding.rowBackground.setOnClickListener {
                     if (item.movieOrTVShowID != null)
                     {
-                        if (item.media_type == "movie") {
+                        if (item.mediaType == "movie") {
                             movieVM.setCurrentMovie(item.movieOrTVShowID)
                             it.findNavController().navigate(R.id.action_libraryFragment_to_movieDetailsFragment)
                         }

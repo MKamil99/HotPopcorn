@@ -2,30 +2,71 @@ package com.example.hotpopcorn.view.authentication
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hotpopcorn.R
+import com.example.hotpopcorn.databinding.FragmentAuthBinding
 import com.example.hotpopcorn.view.main.MainActivity
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 
-// Class which adds functional authentication process and toasts to all Authentication Fragments that inherit from it:
+// Class which adds functional authentication process, toasts and similar layout
+// to all Authentication Fragments that inherit from it:
 abstract class AbstractAuthFragment : Fragment() {
+    private var _binding: FragmentAuthBinding? = null
+    protected val binding get() = _binding!!
+
+    // Binding with layout:
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        // Binding fragment with layout:
+        _binding = FragmentAuthBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
     // Connecting with Firebase:
-    protected fun singInOrSignUp(authenticationTask: Task<AuthResult>, email : String,
-                                 password : String, repeatedPassword : String, successMessage : String) {
+    protected fun loginOrRegister(taskType : String, successMessage : String) {
+        // Gathering values from EditTexts:
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
+        val repeatedPassword =
+            if (taskType == "login") password
+            else binding.etPasswordRepeat.text.toString().trim()
+
+        // Handling with them:
         when {
             // One of the inputs is empty:
-            TextUtils.isEmpty(email) -> showToast(getString(R.string.missing_email))
-            TextUtils.isEmpty(password) -> showToast(getString(R.string.missing_password))
-            TextUtils.isEmpty(repeatedPassword) -> showToast(getString(R.string.missing_repeated_password))
+            TextUtils.isEmpty(email) -> {
+                showToast(getString(R.string.missing_email))
+                binding.etEmail.requestFocus()
+            }
+            TextUtils.isEmpty(password) -> {
+                showToast(getString(R.string.missing_password))
+                binding.etPassword.requestFocus()
+            }
+            TextUtils.isEmpty(repeatedPassword) -> {
+                showToast(getString(R.string.missing_repeated_password))
+                binding.etPasswordRepeat.requestFocus()
+            }
 
             // Passwords don't match:
             password != repeatedPassword -> showToast(getString(R.string.passwords_matching_error))
 
             // Everything is okay:
             else -> {
+                val authenticationTask =
+                    if (taskType == "login") FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                    else FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+
                 authenticationTask.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         saveUserForNextSessions(email, password)

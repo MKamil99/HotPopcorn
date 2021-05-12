@@ -14,10 +14,11 @@ class MoviesFragment : AbstractGeneralFragment() {
     private lateinit var movieVM : MovieViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         movieVM.moviesWithMatchingTitle.observe(viewLifecycleOwner, {
             displayNewData(movieVM.moviesWithMatchingTitle.value ?: listOf()) })
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     private fun displayNewData(movies : List<Movie>) {

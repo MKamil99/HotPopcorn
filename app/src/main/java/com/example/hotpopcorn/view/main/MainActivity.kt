@@ -32,22 +32,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setUpNavigation()
 
-        // Returning to Login Screen after logging out:
-        val myAccount = FirebaseAuth.getInstance()
-        myAccount.addAuthStateListener {
-            if (myAccount.currentUser == null) {
-                showToast(getString(R.string.logged_out))
-                startActivity(Intent(this, AuthActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
-            }
-        }
-
         // Saving database reference:
-        val myUID = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("users/$myUID")
+        val myAccount = FirebaseAuth.getInstance()
+        val ref = FirebaseDatabase.getInstance().getReference("users/${myAccount.uid}")
         firebaseVM.setCurrentUserRef(ref)
 
-        // Listening to Firebase Realtime Database:
+        // Listening to Firebase Realtime Database and saving data that will be displayed in Library Fragment:
         ref.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newRows = ArrayList<SavedObject>()
@@ -61,10 +51,20 @@ class MainActivity : AppCompatActivity() {
                 showToast(error.message)
             }
         })
+
+        // Returning to Login Screen after logging out:
+        myAccount.addAuthStateListener {
+            if (myAccount.currentUser == null) {
+                showToast(getString(R.string.logged_out))
+                startActivity(Intent(this, AuthActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
+            }
+        }
     }
 
     // Managing the menu:
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Menu layout:
         menuInflater.inflate(R.menu.top_bar_menu, menu)
 
         // Logout Icon with logging out process:

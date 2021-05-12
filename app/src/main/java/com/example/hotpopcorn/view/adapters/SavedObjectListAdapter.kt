@@ -27,11 +27,11 @@ class SavedObjectListAdapter(private val savedObjects : List<SavedObject>,
             with(binding) {
                 // Title and release date:
                 tvTitleOrName.text = item.title
-                try { tvReleaseOrBirth.text = item.release_date?.slice(IntRange(0,3)) }
+                try { tvReleaseOrBirth.text = item.releaseDate?.slice(IntRange(0,3)) }
                 catch (e: Exception){ tvReleaseOrBirth.text = "" }
 
                 // Poster:
-                val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"
+                val url = "https://image.tmdb.org/t/p/w185${item.posterPath}"
                 Glide.with(root).load(url).centerCrop().placeholder(R.drawable.ic_movie_24).into(ivPosterOrPhoto)
 
                 // Navigation:

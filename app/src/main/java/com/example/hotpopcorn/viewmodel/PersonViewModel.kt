@@ -16,11 +16,13 @@ class PersonViewModel : ViewModel() {
 
     //                             PERSON SEARCH AND POPULAR PEOPLE
     var peopleWithMatchingName = MutableLiveData<List<Person>>()
-    fun setPeopleWithMatchingName(givenText : String)
-    {
+    fun setPeopleWithMatchingName(givenText : String) {
         viewModelScope.launch {
-            val response = if (givenText != "") repository.searchForPeople(givenText).awaitResponse() else repository.getPopularPeople().awaitResponse()
-            if (response.isSuccessful) peopleWithMatchingName.value = response.body()?.results?.sortedByDescending { it.popularity }
+            val response =
+                if (givenText != "") repository.searchForPeople(givenText).awaitResponse()
+                else repository.getPopularPeople().awaitResponse()
+            if (response.isSuccessful)
+                peopleWithMatchingName.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
     }
 

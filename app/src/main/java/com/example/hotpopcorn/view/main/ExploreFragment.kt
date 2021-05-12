@@ -17,8 +17,8 @@ class ExploreFragment : AbstractMainFragment() {
     private lateinit var personVM : PersonViewModel
     private lateinit var showVM : TVShowViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Binding fragment with layout and VMs:
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         personVM = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
@@ -27,8 +27,6 @@ class ExploreFragment : AbstractMainFragment() {
         movieVM.setMoviesWithMatchingTitle("")
         personVM.setPeopleWithMatchingName("")
         showVM.setTVShowsWithMatchingTitle("")
-
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     // Adding pager for inner fragments:

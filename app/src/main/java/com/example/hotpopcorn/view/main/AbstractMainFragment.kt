@@ -12,19 +12,19 @@ abstract class AbstractMainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     protected val binding get() = _binding!!
 
-    // Binding with layout:
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     // Informing that there is a menu:
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    // Unbinding with layout:
+    // Binding with layout:
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    // Unbinding from layout:
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

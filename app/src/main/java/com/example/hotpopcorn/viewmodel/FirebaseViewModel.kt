@@ -15,12 +15,16 @@ class FirebaseViewModel : ViewModel() {
     }
 
     // Current User's saved objects:
-    var moviesAndShowsThatAreToWatch      = MutableLiveData<List<SavedObject>>()
-    var moviesAndShowsThatHaveBeenWatched = MutableLiveData<List<SavedObject>>()
+    private var moviesAndShowsThatAreToWatch      = MutableLiveData<List<SavedObject>>()
+    private var moviesAndShowsThatHaveBeenWatched = MutableLiveData<List<SavedObject>>()
     var moviesAndShowsOverall = MutableLiveData<List<SavedObject>>()
     fun setSavedObjectsFromFirebase(savedObjects : List<SavedObject>) {
-        moviesAndShowsThatAreToWatch.value = savedObjects.filter { savedObject -> savedObject.seen == false }
-        moviesAndShowsThatHaveBeenWatched.value = savedObjects.filter { savedObject -> savedObject.seen == true }
+        moviesAndShowsThatAreToWatch.value = savedObjects
+            .filter { savedObject -> savedObject.seen == false }
+            .sortedByDescending { x -> x.timeOfSaving }
+        moviesAndShowsThatHaveBeenWatched.value = savedObjects
+            .filter { savedObject -> savedObject.seen == true }
+            .sortedByDescending { x -> x.timeOfSaving }
         moviesAndShowsOverall.value = savedObjects
     }
 
@@ -30,13 +34,13 @@ class FirebaseViewModel : ViewModel() {
     fun setMatchingSavedObjects(givenText : String) {
         // TO WATCH:
         matchingMoviesAndShowsThatAreToWatch.value =
-            if (givenText == "") { moviesAndShowsThatAreToWatch.value }
-            else { moviesAndShowsThatAreToWatch.value?.filter {
-                    x -> x.title != null && x.title.contains(givenText) } }
+            if (givenText == "") moviesAndShowsThatAreToWatch.value
+            else moviesAndShowsThatAreToWatch.value
+                ?.filter { x -> x.title.contains(givenText) }
         // WATCHED:
         matchingMoviesAndShowsThatHaveBeenWatched.value =
-            if (givenText == "") { moviesAndShowsThatHaveBeenWatched.value }
-            else { moviesAndShowsThatHaveBeenWatched.value?.filter {
-                    x -> x.title != null && x.title.contains(givenText) } }
+            if (givenText == "") moviesAndShowsThatHaveBeenWatched.value
+            else moviesAndShowsThatHaveBeenWatched.value
+                ?.filter { x -> x.title.contains(givenText) }
     }
 }

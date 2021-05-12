@@ -18,8 +18,11 @@ class MovieViewModel : ViewModel() {
     var moviesWithMatchingTitle = MutableLiveData<List<Movie>>()
     fun setMoviesWithMatchingTitle(givenText : String) {
         viewModelScope.launch {
-            val response = if (givenText != "") repository.searchForMovies(givenText).awaitResponse() else repository.getPopularMovies().awaitResponse()
-            if (response.isSuccessful) moviesWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
+            val response =
+                if (givenText != "") repository.searchForMovies(givenText).awaitResponse()
+                else repository.getPopularMovies().awaitResponse()
+            if (response.isSuccessful)
+                moviesWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
     }
 

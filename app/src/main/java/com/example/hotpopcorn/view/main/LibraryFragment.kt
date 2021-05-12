@@ -12,10 +12,9 @@ import com.example.hotpopcorn.viewmodel.FirebaseViewModel
 class LibraryFragment : AbstractMainFragment() {
     private lateinit var firebaseVM: FirebaseViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Binding fragment with layout and VM:
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         firebaseVM = ViewModelProvider(requireActivity()).get(FirebaseViewModel::class.java)
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     // Adding pager for inner fragments:

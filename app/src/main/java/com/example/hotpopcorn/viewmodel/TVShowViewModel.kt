@@ -18,8 +18,11 @@ class TVShowViewModel : ViewModel() {
     var TVShowsWithMatchingTitle = MutableLiveData<List<TVShow>>()
     fun setTVShowsWithMatchingTitle(givenText : String) {
         viewModelScope.launch {
-            val response = if (givenText != "") repository.searchForTVShows(givenText).awaitResponse() else repository.getPopularTVShows().awaitResponse()
-            if (response.isSuccessful) TVShowsWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
+            val response =
+                if (givenText != "") repository.searchForTVShows(givenText).awaitResponse()
+                else repository.getPopularTVShows().awaitResponse()
+            if (response.isSuccessful)
+                TVShowsWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.hotpopcorn.view.details
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,7 +10,6 @@ import com.example.hotpopcorn.model.SavedObject
 import com.example.hotpopcorn.viewmodel.FirebaseViewModel
 import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.text.SimpleDateFormat
 import java.util.*
 
 // Class which adds functionalities for FAB in all Details Fragments that inherit from it:
@@ -25,7 +23,6 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
     }
 
     // Displaying FAB and managing Firebase database:
-    @SuppressLint("SimpleDateFormat")
     protected fun displayFAB(fab : FloatingActionButton,
                              currentObjectID : Int,
                              currentObjectTitle : String,
@@ -39,8 +36,7 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
             val savedObject = firebaseVM.moviesAndShowsOverall.value?.find { savedObject ->
                 savedObject.movieOrTVShowID == currentObjectID && savedObject.media_type == currentObjectMediaType }
             val objectToSave = SavedObject(currentObjectMediaType, currentObjectID, currentObjectTitle,
-                currentObjectPosterPath, currentObjectReleaseDate,
-                SimpleDateFormat("dd-MM-yyyy").format(Date()),
+                currentObjectPosterPath, currentObjectReleaseDate, Date().time,
                 savedObject != null) // if is in the lists, move from 'To Watch' to 'Watched' (seen = true)
             val rowInDatabase = firebaseVM.currentUserRef.value?.child(
                 "$currentObjectMediaType-$currentObjectID")

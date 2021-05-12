@@ -23,7 +23,7 @@
 
     <!-- Main Content -->
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/sv_mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

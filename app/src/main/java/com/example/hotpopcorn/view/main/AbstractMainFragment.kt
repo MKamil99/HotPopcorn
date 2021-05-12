@@ -31,11 +31,18 @@ abstract class AbstractMainFragment : Fragment() {
     }
 
     // Managing inner fragments:
-    protected lateinit var viewPagerAdapter: PagerAdapter
+    private lateinit var viewPagerAdapter: PagerAdapter
     inner class PagerAdapter(fm: FragmentManager, private val fragments : List<Fragment>,
                              private val pageTitles : List<String>) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getCount(): Int = fragments.size
         override fun getItem(position: Int): Fragment = fragments[position]
         override fun getPageTitle(position: Int): CharSequence = pageTitles[position]
+    }
+
+    // Adding pager for inner fragments:
+    protected fun installPager(fragments : List<Fragment>, pageTitles : List<String>) {
+        binding.tabLayout.setupWithViewPager(binding.pager)
+        viewPagerAdapter = PagerAdapter(this.childFragmentManager, fragments, pageTitles)
+        binding.pager.adapter = viewPagerAdapter
     }
 }

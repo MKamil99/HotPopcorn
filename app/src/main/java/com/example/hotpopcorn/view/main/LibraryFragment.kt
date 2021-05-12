@@ -5,8 +5,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import com.example.hotpopcorn.R
-import com.example.hotpopcorn.view.general.WatchedFragment
-import com.example.hotpopcorn.view.general.ToWatchFragment
+import com.example.hotpopcorn.view.general.*
 import com.example.hotpopcorn.viewmodel.FirebaseViewModel
 
 class LibraryFragment : AbstractMainFragment() {
@@ -17,15 +16,10 @@ class LibraryFragment : AbstractMainFragment() {
         firebaseVM = ViewModelProvider(requireActivity()).get(FirebaseViewModel::class.java)
     }
 
-    // Adding pager for inner fragments:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.tabLayout.setupWithViewPager(binding.pager)
-        viewPagerAdapter = PagerAdapter(this.childFragmentManager,
-            listOf(ToWatchFragment(), WatchedFragment()),
+        installPager(listOf(ToWatchFragment(), WatchedFragment()),
             listOf(getString(R.string.library_towatch_tab), getString(R.string.library_watched_tab)))
-        binding.pager.adapter = viewPagerAdapter
     }
 
     // Modifying functionality of the menu:

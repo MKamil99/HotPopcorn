@@ -29,15 +29,10 @@ class ExploreFragment : AbstractMainFragment() {
         showVM.setTVShowsWithMatchingTitle("")
     }
 
-    // Adding pager for inner fragments:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.tabLayout.setupWithViewPager(binding.pager)
-        viewPagerAdapter = PagerAdapter(this.childFragmentManager,
-            listOf(MoviesFragment(), PeopleFragment(), TVShowsFragment()),
+        installPager(listOf(MoviesFragment(), PeopleFragment(), TVShowsFragment()),
             listOf(getString(R.string.explore_movies_tab), getString(R.string.explore_people_tab), getString(R.string.explore_shows_tab)))
-        binding.pager.adapter = viewPagerAdapter
     }
 
     // Modifying functionality of the menu:

@@ -2,6 +2,7 @@ package com.example.hotpopcorn.view.details
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
@@ -71,13 +72,22 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
         })
     }
 
-    // Show message:
+    // Hiding FAB after scrolling down and showing it again if user is on the top of the view:
+    protected fun addListenerToHideFAB(fab : FloatingActionButton, scrollView: ScrollView) {
+        scrollView.viewTreeObserver.addOnScrollChangedListener {
+            val mScrollY = scrollView.scrollY
+            if (mScrollY > 0 && fab.isShown) fab.hide()
+            else if (mScrollY < 15) fab.show()
+        }
+    }
+
+    // Showing message:
     private fun showToast(task : Task<Void>, message : String) {
         if (task.isSuccessful) Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
         else Toast.makeText(requireActivity(), task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
     }
 
-    // Change color:
+    // Changing color:
     private fun changeFABColor(fab : FloatingActionButton, givenColor: Int) {
         fab.backgroundTintList = AppCompatResources.getColorStateList(requireContext(), givenColor)
     }

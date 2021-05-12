@@ -11,17 +11,24 @@ import com.example.hotpopcorn.databinding.FragmentCompanyDetailsBinding
 import com.example.hotpopcorn.viewmodel.CompanyViewModel
 
 class CompanyDetailsFragment : AbstractDetailsFragment() {
+    // Binding fragment with ViewModel:
+    private lateinit var companyVM : CompanyViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        companyVM = ViewModelProvider(requireActivity()).get(CompanyViewModel::class.java)
+    }
+
+    // Binding Fragment with layout:
     private var _binding: FragmentCompanyDetailsBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var companyVM : CompanyViewModel
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentCompanyDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Binding fragment with layout and VM:
-        _binding = FragmentCompanyDetailsBinding.inflate(inflater, container, false)
-        companyVM = ViewModelProvider(requireActivity()).get(CompanyViewModel::class.java)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Displaying current company's data in TextViews and ImageView:
         companyVM.currentCompany.observe(viewLifecycleOwner, { currentCompany ->
             // Name:
@@ -50,7 +57,10 @@ class CompanyDetailsFragment : AbstractDetailsFragment() {
                 binding.ivCompanyLogo.visibility = View.VISIBLE
             } else binding.ivCompanyLogo.visibility = View.GONE
         })
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

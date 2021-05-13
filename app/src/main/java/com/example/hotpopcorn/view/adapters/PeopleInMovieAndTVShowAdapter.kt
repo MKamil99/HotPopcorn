@@ -1,17 +1,16 @@
 package com.example.hotpopcorn.view.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.hotpopcorn.R
 import com.example.hotpopcorn.databinding.ItemTileBinding
 import com.example.hotpopcorn.model.Person
 import com.example.hotpopcorn.viewmodel.PersonViewModel
 
-class PeopleInMovieAndTVShowAdapter(private val people : List<Person>,
+class PeopleInMovieAndTVShowAdapter(private val people : LiveData<List<Person>>,
                                     private val personVM: PersonViewModel,
                                     private val movieOrTVShow : String,
                                     private val castOrCrew : String) : RecyclerView.Adapter<PeopleInMovieAndTVShowAdapter.ViewHolder>() {
@@ -19,27 +18,20 @@ class PeopleInMovieAndTVShowAdapter(private val people : List<Person>,
         val view = ItemTileBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
     }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(people[position])
-    override fun getItemCount(): Int = people.size
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(people.value?.get(position))
+    override fun getItemCount(): Int = people.value?.size ?: 0
 
-    inner class ViewHolder(private val binding: ItemTileBinding): RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("UseCompatLoadingForDrawables")
-        fun bind(item : Person) {
-            with(binding) {
-                // Name and who was played or for what was responsible:
-                tvTitleOrName.text = item.name
-                tvCharacterOrDepartment.text = if (castOrCrew == "cast") item.character else item.department
-
-                // Photo:
-                val placeholderID : Int = when(item.gender) {
+    inner class ViewHolder(private val binding: ItemTileBinding) : AbstractTileViewHolder(binding) {
+        fun bind(item : Person?) {
+            if (item != null) {
+                // Displaying data:
+                displayTitleOrName(item.name)
+                displayCharacterOrDepartment(if (castOrCrew == "cast") item.character else item.department)
+                displayPosterOrPhoto(item.profile_path, when(item.gender) {
                     2 -> R.drawable.ic_person_24_man        // man
                     1 -> R.drawable.ic_person_24_woman      // woman
                     else -> R.drawable.ic_person_24_human   // unknown
-                }
-                if (item.profile_path != null) {
-                    val url = "https://image.tmdb.org/t/p/w185${item.profile_path}"
-                    Glide.with(root).load(url).centerCrop().placeholder(placeholderID).into(ivPosterOrPhoto)
-                } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
+                })
 
                 // Navigation:
                 binding.tileBackground.setOnClickListener {

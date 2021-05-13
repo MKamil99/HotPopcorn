@@ -67,8 +67,8 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         })
 
         // Displaying current person's inCast and inCrew data in RecyclerViews:
-        addObserverForList(personVM.currentPersonInCastCollection, binding.rvCast, "inCast", binding.tvHeader2)
-        addObserverForList(personVM.currentPersonInCrewCollection, binding.rvCrew, "inCrew", binding.tvHeader3)
+        initializeList(personVM.currentPersonInCastCollection, binding.rvCast, "inCast", binding.tvHeader2)
+        initializeList(personVM.currentPersonInCrewCollection, binding.rvCrew, "inCrew", binding.tvHeader3)
     }
 
     override fun onDestroyView() {
@@ -97,7 +97,7 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         if (profilePath != null) {
             val url = "https://image.tmdb.org/t/p/w185$profilePath"
             Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderID).into(binding.ivPosterOrPhoto)
-        } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
+        } else binding.ivPosterOrPhoto.setImageDrawable(resources.getDrawable(placeholderID, context?.theme))
     }
 
     // Displaying current person's days of birth and death:
@@ -158,11 +158,18 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
     }
 
     // Updating data in single RecyclerView (for cast or for crew):
-    private fun addObserverForList(listToObserve : LiveData<List<GeneralObject>>, recyclerView: RecyclerView,
-                                   inCastOrCrew : String, currentHeader : TextView) {
+    private fun initializeList(listToObserve : LiveData<List<GeneralObject>>, recyclerView: RecyclerView,
+                               inCastOrInCrew : String, currentHeader : TextView) {
+        // Adding layout and adapter to RecyclerView:
+        recyclerView.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = MoviesAndTVShowsInPersonAdapter(listToObserve, movieVM, showVM, inCastOrInCrew)
+        }
+
+        // Starting observing to update at runtime:
         listToObserve.observe(viewLifecycleOwner, {
             // Update RecyclerView:
-            displayNewData(listToObserve.value ?: listOf(), recyclerView, inCastOrCrew)
+            recyclerView.adapter?.notifyDataSetChanged()
             // Update headers:
             if (listToObserve.value.isNullOrEmpty()) {
                 currentHeader.visibility = View.GONE
@@ -172,22 +179,14 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
                 recyclerView.visibility = View.VISIBLE
 
                 // No biography:
-                if ((inCastOrCrew == "inCast" && personVM.currentPerson.value?.biography.isNullOrEmpty()) ||
-                    (inCastOrCrew == "inCrew" && personVM.currentPerson.value?.biography.isNullOrEmpty()
+                if ((inCastOrInCrew == "inCast" && personVM.currentPerson.value?.biography.isNullOrEmpty()) ||
+                    (inCastOrInCrew == "inCrew" && personVM.currentPerson.value?.biography.isNullOrEmpty()
                             && personVM.currentPersonInCastCollection.value.isNullOrEmpty())) {
                     binding.tvHeader1.text = currentHeader.text
                     binding.tvHeader1.visibility = View.VISIBLE
                     currentHeader.visibility = View.GONE
-                } else if (inCastOrCrew == "inCast") binding.tvHeader1.text = resources.getString(R.string.biography_header)
+                } else if (inCastOrInCrew == "inCast") binding.tvHeader1.text = resources.getString(R.string.biography_header)
             }
         })
-    }
-
-    // Displaying data in RecyclerView:
-    private fun displayNewData(moviesAndTVShows: List<GeneralObject>, recyclerView : RecyclerView, inCastOrInCrew: String) {
-        recyclerView.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = MoviesAndTVShowsInPersonAdapter(moviesAndTVShows, movieVM, showVM, inCastOrInCrew)
-        }
     }
 }

@@ -23,15 +23,15 @@ abstract class AbstractGeneralFragmentForLibrary : AbstractGeneralFragment() {
         firebaseVM = ViewModelProvider(requireActivity()).get(FirebaseViewModel::class.java)
     }
 
-    protected fun addFirebaseObserverForList(listToObserve : LiveData<List<SavedObject>>) {
-        listToObserve.observe(viewLifecycleOwner, {
-            displayNewData(listToObserve.value ?: listOf()) })
-    }
-
-    private fun displayNewData(savedObjects : List<SavedObject>) {
+    protected fun initializeList(listToObserve : LiveData<List<SavedObject>>) {
+        // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = SavedObjectListAdapter(savedObjects, movieVM, showVM)
+            this.adapter = SavedObjectListAdapter(listToObserve, movieVM, showVM)
         }
+
+        // Starting observing to update at runtime:
+        listToObserve.observe(viewLifecycleOwner, {
+            binding.rvGeneralList.adapter?.notifyDataSetChanged() })
     }
 }

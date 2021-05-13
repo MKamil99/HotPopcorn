@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hotpopcorn.model.Movie
 import com.example.hotpopcorn.view.adapters.MovieListAdapter
 import com.example.hotpopcorn.viewmodel.MovieViewModel
 
@@ -16,15 +15,18 @@ class MoviesFragment : AbstractGeneralFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         movieVM = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
-        movieVM.moviesWithMatchingTitle.observe(viewLifecycleOwner, {
-            displayNewData(movieVM.moviesWithMatchingTitle.value ?: listOf()) })
-        return binding.root
-    }
 
-    private fun displayNewData(movies : List<Movie>) {
+        // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = MovieListAdapter(movies, movieVM)
+            this.adapter = MovieListAdapter(movieVM.moviesWithMatchingTitle, movieVM)
         }
+
+        // Starting observing to update at runtime:
+        movieVM.moviesWithMatchingTitle.observe(viewLifecycleOwner, {
+            binding.rvGeneralList.adapter?.notifyDataSetChanged()
+        })
+
+        return binding.root
     }
 }

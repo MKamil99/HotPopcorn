@@ -63,7 +63,7 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
         if (path != null) {
             val url = "https://image.tmdb.org/t/p/w185$path"
             Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderID).into(binding.ivPosterOrPhoto)
-        } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
+        } else binding.ivPosterOrPhoto.setImageDrawable(resources.getDrawable(placeholderID, context?.theme))
     }
 
     // Displaying current Movie's / TV Show's title:
@@ -170,26 +170,24 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
     protected fun observeCastAndCrew(cast : LiveData<List<Person>>,
                                      crew : LiveData<List<Person>>, movieOrTVShow: String) {
         // Displaying current movie's cast and crew data in RecyclerViews:
-        addObserverForList(cast, binding.rvCast, movieOrTVShow, "cast", binding.tvHeader2)
-        addObserverForList(crew, binding.rvCrew, movieOrTVShow, "crew", binding.tvHeader3)
+        initializeList(cast, binding.rvCast, movieOrTVShow, "cast", binding.tvHeader2)
+        initializeList(crew, binding.rvCrew, movieOrTVShow, "crew", binding.tvHeader3)
     }
 
     // Updating data in single RecyclerView (for cast or for crew):
-    private fun addObserverForList(listToObserve : LiveData<List<Person>>, recyclerView: RecyclerView,
-                                   movieOrTVShow : String, castOrCrew : String, header : TextView) {
+    private fun initializeList(listToObserve : LiveData<List<Person>>, recyclerView: RecyclerView,
+                               movieOrTVShow : String, castOrCrew : String, header : TextView) {
+        // Adding layout and adapter to RecyclerView:
+        recyclerView.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = PeopleInMovieAndTVShowAdapter(listToObserve, personVM, movieOrTVShow, castOrCrew)
+        }
+
+        // Starting observing to update at runtime:
         listToObserve.observe(viewLifecycleOwner, {
-            displayNewData(listToObserve.value ?: listOf(), recyclerView, movieOrTVShow, castOrCrew)
+            recyclerView.adapter?.notifyDataSetChanged()
             header.visibility = if (listToObserve.value.isNullOrEmpty()) View.GONE else View.VISIBLE
             recyclerView.visibility = if (listToObserve.value.isNullOrEmpty()) View.GONE else View.VISIBLE
         })
-    }
-
-    // Displaying data in RecyclerView:
-    private fun displayNewData(people : List<Person>, recyclerView : RecyclerView,
-                               movieOrTVShow : String, castOrCrew: String) {
-        recyclerView.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = PeopleInMovieAndTVShowAdapter(people, personVM, movieOrTVShow, castOrCrew)
-        }
     }
 }

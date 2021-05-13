@@ -16,15 +16,17 @@ class TVShowsFragment : AbstractGeneralFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         showVM = ViewModelProvider(requireActivity()).get(TVShowViewModel::class.java)
-        showVM.TVShowsWithMatchingTitle.observe(viewLifecycleOwner, {
-            displayNewData(showVM.TVShowsWithMatchingTitle.value ?: listOf()) })
-        return binding.root
-    }
 
-    private fun displayNewData(shows : List<TVShow>) {
+        // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = TVShowListAdapter(shows, showVM)
+            this.adapter = TVShowListAdapter(showVM.TVShowsWithMatchingTitle, showVM)
         }
+
+        // Starting observing to update at runtime:
+        showVM.TVShowsWithMatchingTitle.observe(viewLifecycleOwner, {
+            binding.rvGeneralList.adapter?.notifyDataSetChanged() })
+
+        return binding.root
     }
 }

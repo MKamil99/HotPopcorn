@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hotpopcorn.model.Person
 import com.example.hotpopcorn.view.adapters.PersonListAdapter
 import com.example.hotpopcorn.viewmodel.PersonViewModel
 
@@ -16,15 +15,17 @@ class PeopleFragment : AbstractGeneralFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         personVM = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
-        personVM.peopleWithMatchingName.observe(viewLifecycleOwner, {
-            displayNewData(personVM.peopleWithMatchingName.value ?: listOf()) })
-        return binding.root
-    }
 
-    private fun displayNewData(people : List<Person>) {
+        // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = PersonListAdapter(people, personVM)
+            this.adapter = PersonListAdapter(personVM.peopleWithMatchingName, personVM)
         }
+
+        // Starting observing to update at runtime:
+        personVM.peopleWithMatchingName.observe(viewLifecycleOwner, {
+            binding.rvGeneralList.adapter?.notifyDataSetChanged() })
+
+        return binding.root
     }
 }

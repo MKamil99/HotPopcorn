@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,35 +16,39 @@ class MovieViewModel : ViewModel() {
     private val repository : MovieRepository = MovieRepository(ApiRequest.getAPI())
 
     //                           MOVIE SEARCH AND POPULAR MOVIES
-    var moviesWithMatchingTitle = MutableLiveData<List<Movie>>()
+    private val mutMoviesWithMatchingTitle = MutableLiveData<List<Movie>>()
+    val moviesWithMatchingTitle : LiveData<List<Movie>> get() = mutMoviesWithMatchingTitle
     fun setMoviesWithMatchingTitle(givenText : String) {
         viewModelScope.launch {
             val response =
                 if (givenText != "") repository.searchForMovies(givenText).awaitResponse()
                 else repository.getPopularMovies().awaitResponse()
             if (response.isSuccessful)
-                moviesWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
+                mutMoviesWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
     }
 
     //                                      MOVIE DETAILS
-    var currentMovie = MutableLiveData<Movie>()
+    private val mutCurrentMovie = MutableLiveData<Movie>()
+    val currentMovie : LiveData<Movie> get() = mutCurrentMovie
     fun setCurrentMovie(currentMovieID : Int) {
         viewModelScope.launch {
             val response = repository.getMovieDetails(currentMovieID).awaitResponse()
-            if (response.isSuccessful) currentMovie.value = response.body()
+            if (response.isSuccessful) mutCurrentMovie.value = response.body()
         }
     }
 
     //                            PEOPLE CONNECTED WITH THIS MOVIE
-    var currentMovieCast = MutableLiveData<List<Person>>()
-    var currentMovieCrew = MutableLiveData<List<Person>>()
+    private val mutCurrentMovieCast = MutableLiveData<List<Person>>()
+    private val mutCurrentMovieCrew = MutableLiveData<List<Person>>()
+    val currentMovieCast : LiveData<List<Person>> get() = mutCurrentMovieCast
+    val currentMovieCrew : LiveData<List<Person>> get() = mutCurrentMovieCrew
     fun setPeopleConnectedWithCurrentMovie(currentMovieID : Int) {
         viewModelScope.launch {
             val response = repository.getPeopleFromThisMovie(currentMovieID).awaitResponse()
             if (response.isSuccessful) {
-                currentMovieCast.value = response.body()?.cast?.sortedByDescending { it.popularity }
-                currentMovieCrew.value = response.body()?.crew?.sortedByDescending { it.popularity }
+                mutCurrentMovieCast.value = response.body()?.cast?.sortedByDescending { it.popularity }
+                mutCurrentMovieCrew.value = response.body()?.crew?.sortedByDescending { it.popularity }
             }
         }
     }

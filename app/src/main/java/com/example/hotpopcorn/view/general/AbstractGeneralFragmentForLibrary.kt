@@ -1,7 +1,7 @@
 package com.example.hotpopcorn.view.general
 
 import android.os.Bundle
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hotpopcorn.model.SavedObject
@@ -23,7 +23,7 @@ abstract class AbstractGeneralFragmentForLibrary : AbstractGeneralFragment() {
         firebaseVM = ViewModelProvider(requireActivity()).get(FirebaseViewModel::class.java)
     }
 
-    protected fun addFirebaseObserverForList(listToObserve : MutableLiveData<List<SavedObject>>) {
+    protected fun addFirebaseObserverForList(listToObserve : LiveData<List<SavedObject>>) {
         listToObserve.observe(viewLifecycleOwner, {
             displayNewData(listToObserve.value ?: listOf()) })
     }

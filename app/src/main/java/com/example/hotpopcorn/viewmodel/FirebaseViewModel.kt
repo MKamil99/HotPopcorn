@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hotpopcorn.model.SavedObject
@@ -9,38 +10,42 @@ import com.google.firebase.database.DatabaseReference
 class FirebaseViewModel : ViewModel() {
 
     // Current User's Database Reference from Firebase Realtime Database:
-    var currentUserRef = MutableLiveData<DatabaseReference>()
+    private val mutCurrentUserRef = MutableLiveData<DatabaseReference>()
+    val currentUserRef : LiveData<DatabaseReference> get() = mutCurrentUserRef
     fun setCurrentUserRef(ref : DatabaseReference?) {
-        if (ref != null) currentUserRef.value = ref
+        if (ref != null) mutCurrentUserRef.value = ref
     }
 
     // Current User's saved objects:
-    private var moviesAndShowsThatAreToWatch      = MutableLiveData<List<SavedObject>>()
-    private var moviesAndShowsThatHaveBeenWatched = MutableLiveData<List<SavedObject>>()
-    var moviesAndShowsOverall = MutableLiveData<List<SavedObject>>()
+    private val mutObjectsToWatch = MutableLiveData<List<SavedObject>>()
+    private val mutObjectWatched  = MutableLiveData<List<SavedObject>>()
+    private val mutObjectsOverall = MutableLiveData<List<SavedObject>>()
+    val objectsOverall : LiveData<List<SavedObject>> get() = mutObjectsOverall
     fun setSavedObjectsFromFirebase(savedObjects : List<SavedObject>) {
-        moviesAndShowsThatAreToWatch.value = savedObjects
+        mutObjectsToWatch.value = savedObjects
             .filter { savedObject -> savedObject.seen == false }
             .sortedByDescending { x -> x.timeOfSaving }
-        moviesAndShowsThatHaveBeenWatched.value = savedObjects
+        mutObjectWatched.value = savedObjects
             .filter { savedObject -> savedObject.seen == true }
             .sortedByDescending { x -> x.timeOfSaving }
-        moviesAndShowsOverall.value = savedObjects
+        mutObjectsOverall.value = savedObjects
     }
 
     // Searching in database:
-    var matchingMoviesAndShowsThatAreToWatch = MutableLiveData<List<SavedObject>>()
-    var matchingMoviesAndShowsThatHaveBeenWatched = MutableLiveData<List<SavedObject>>()
+    private val mutMatchingObjectsToWatch      = MutableLiveData<List<SavedObject>>()
+    private val mutMatchingObjectsWatched = MutableLiveData<List<SavedObject>>()
+    val matchingObjectsToWatch : LiveData<List<SavedObject>> get() = mutMatchingObjectsToWatch
+    val matchingObjectsWatched : LiveData<List<SavedObject>> get() = mutMatchingObjectsWatched
     fun setMatchingSavedObjects(givenText : String) {
         // TO WATCH:
-        matchingMoviesAndShowsThatAreToWatch.value =
-            if (givenText == "") moviesAndShowsThatAreToWatch.value
-            else moviesAndShowsThatAreToWatch.value
+        mutMatchingObjectsToWatch.value =
+            if (givenText == "") mutObjectsToWatch.value
+            else mutObjectsToWatch.value
                 ?.filter { x -> x.title.contains(givenText) }
         // WATCHED:
-        matchingMoviesAndShowsThatHaveBeenWatched.value =
-            if (givenText == "") moviesAndShowsThatHaveBeenWatched.value
-            else moviesAndShowsThatHaveBeenWatched.value
+        mutMatchingObjectsWatched.value =
+            if (givenText == "") mutObjectWatched.value
+            else mutObjectWatched.value
                 ?.filter { x -> x.title.contains(givenText) }
     }
 }

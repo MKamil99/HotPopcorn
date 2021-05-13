@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,36 +16,40 @@ class PersonViewModel : ViewModel() {
     private val repository : PersonRepository = PersonRepository(ApiRequest.getAPI())
 
     //                             PERSON SEARCH AND POPULAR PEOPLE
-    var peopleWithMatchingName = MutableLiveData<List<Person>>()
+    private val mutPeopleWithMatchingName = MutableLiveData<List<Person>>()
+    val peopleWithMatchingName : LiveData<List<Person>> get() = mutPeopleWithMatchingName
     fun setPeopleWithMatchingName(givenText : String) {
         viewModelScope.launch {
             val response =
                 if (givenText != "") repository.searchForPeople(givenText).awaitResponse()
                 else repository.getPopularPeople().awaitResponse()
             if (response.isSuccessful)
-                peopleWithMatchingName.value = response.body()?.results?.sortedByDescending { it.popularity }
+                mutPeopleWithMatchingName.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
     }
 
     //                                      PERSON DETAILS
-    var currentPerson = MutableLiveData<Person>()
+    private val mutCurrentPerson = MutableLiveData<Person>()
+    val currentPerson : LiveData<Person> get() = mutCurrentPerson
     fun setCurrentPerson(currentPersonID : Int) {
         viewModelScope.launch {
             val response = repository.getPersonDetails(currentPersonID).awaitResponse()
-            if (response.isSuccessful) currentPerson.value = response.body()
+            if (response.isSuccessful) mutCurrentPerson.value = response.body()
         }
     }
 
     //                         MOVIES AND TV SHOWS CONNECTED WITH THIS PERSON
-    var currentPersonInCastCollection = MutableLiveData<List<GeneralObject>>()
-    var currentPersonInCrewCollection = MutableLiveData<List<GeneralObject>>()
+    private val mutCurrentPersonInCastCollection = MutableLiveData<List<GeneralObject>>()
+    private val mutCurrentPersonInCrewCollection = MutableLiveData<List<GeneralObject>>()
+    val currentPersonInCastCollection : LiveData<List<GeneralObject>> get() = mutCurrentPersonInCastCollection
+    val currentPersonInCrewCollection : LiveData<List<GeneralObject>> get() = mutCurrentPersonInCrewCollection
     fun setCurrentPersonCollection(currentPersonID : Int)
     {
         viewModelScope.launch {
             val response = repository.getMoviesAndTVShowsFromThisPerson(currentPersonID).awaitResponse()
             if (response.isSuccessful) {
-                currentPersonInCastCollection.value = response.body()?.cast?.sortedByDescending { it.popularity }
-                currentPersonInCrewCollection.value = response.body()?.crew?.sortedByDescending { it.popularity }
+                mutCurrentPersonInCastCollection.value = response.body()?.cast?.sortedByDescending { it.popularity }
+                mutCurrentPersonInCrewCollection.value = response.body()?.crew?.sortedByDescending { it.popularity }
             }
         }
     }

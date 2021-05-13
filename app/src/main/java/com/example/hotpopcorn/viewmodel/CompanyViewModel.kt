@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,11 +15,12 @@ class CompanyViewModel : ViewModel() {
     private val repository : CompanyRepository = CompanyRepository(ApiRequest.getAPI())
 
     //                                      COMPANY DETAILS
-    var currentCompany = MutableLiveData<ProductionCompany>()
+    private val mutCurrentCompany = MutableLiveData<ProductionCompany>()
+    val currentCompany : LiveData<ProductionCompany> get() = mutCurrentCompany
     fun setCurrentCompany(currentCompanyID : Int) {
         viewModelScope.launch {
             val response = repository.getCompanyDetails(currentCompanyID).awaitResponse()
-            if (response.isSuccessful) currentCompany.value = response.body()
+            if (response.isSuccessful) mutCurrentCompany.value = response.body()
         }
     }
 }

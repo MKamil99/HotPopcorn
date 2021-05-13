@@ -32,9 +32,9 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
                              currentObjectMediaType : String) {
         fab.visibility = View.VISIBLE
         changeFABColor(fab, R.color.gray)
-        firebaseVM.moviesAndShowsOverall.observe(viewLifecycleOwner, {
+        firebaseVM.objectsOverall.observe(viewLifecycleOwner, {
             // Checking database:
-            val savedObject = firebaseVM.moviesAndShowsOverall.value?.find { savedObject ->
+            val savedObject = firebaseVM.objectsOverall.value?.find { savedObject ->
                 savedObject.movieOrTVShowID == currentObjectID && savedObject.mediaType == currentObjectMediaType }
             val objectToSave = SavedObject(currentObjectMediaType, currentObjectID, currentObjectTitle,
                 currentObjectPosterPath, currentObjectReleaseDate, Date().time,

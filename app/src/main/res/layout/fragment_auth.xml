@@ -8,26 +8,15 @@
         android:id="@+id/iv_appLogo"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:layout_marginTop="15dp"
         android:contentDescription="@string/auth_image_description"
         android:scaleX="1.2"
         android:scaleY="1.2"
         android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/til_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_screenTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?colorPrimary"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/til_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_appLogo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
@@ -39,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/til_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_screenTitle">
+        app:layout_constraintTop_toBottomOf="@+id/iv_appLogo">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"

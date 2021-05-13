@@ -22,7 +22,7 @@ abstract class AbstractRowViewHolder(private val binding: ItemRowBinding) : Recy
 
     // Displaying current Movie's release date / current TV Show's first episode release date:
     protected fun displayReleaseDate(releaseDate : String?) {
-        if (releaseDate != null) binding.tvReleaseOrBirth.text = releaseDate.slice(IntRange(0,3))
-        else binding.tvReleaseOrBirth.text = ""
+        try { binding.tvReleaseOrBirth.text = releaseDate?.slice(IntRange(0,3)) }
+        catch (e: Exception) { binding.tvReleaseOrBirth.text = "" }
     }
 }

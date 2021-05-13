@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -23,6 +24,7 @@ class SavedObjectListAdapter(private val savedObjects : List<SavedObject>,
     override fun getItemCount(): Int = savedObjects.size
 
     inner class ViewHolder(private val binding: ItemRowBinding): RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(item : SavedObject) {
             with(binding) {
                 // Title and release date:
@@ -31,8 +33,11 @@ class SavedObjectListAdapter(private val savedObjects : List<SavedObject>,
                 catch (e: Exception){ tvReleaseOrBirth.text = "" }
 
                 // Poster:
-                val url = "https://image.tmdb.org/t/p/w185${item.posterPath}"
-                Glide.with(root).load(url).centerCrop().placeholder(R.drawable.ic_movie_24).into(ivPosterOrPhoto)
+                val placeholderID = if (item.mediaType == "movie") R.drawable.ic_movie_24 else R.drawable.ic_tvshow_24
+                if (item.posterPath != null) {
+                    val url = "https://image.tmdb.org/t/p/w185${item.posterPath}"
+                    Glide.with(root).load(url).centerCrop().placeholder(placeholderID).into(ivPosterOrPhoto)
+                } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
 
                 // Navigation:
                 binding.rowBackground.setOnClickListener {

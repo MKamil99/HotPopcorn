@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -23,6 +24,7 @@ class MoviesAndTVShowsInPersonAdapter(private val moviesAndTVShows : List<Genera
     override fun getItemCount(): Int = moviesAndTVShows.size
 
     inner class ViewHolder(private val binding: ItemTileBinding): RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(item : GeneralObject) {
             with(binding) {
                 // Title and who was played or for what was responsible:
@@ -30,9 +32,11 @@ class MoviesAndTVShowsInPersonAdapter(private val moviesAndTVShows : List<Genera
                 tvCharacterOrDepartment.text = if (inCastOrInCrew == "inCast") item.character else item.department
 
                 // Poster:
-                val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"
-                val placeholderImg = if (item.media_type == "movie") R.drawable.ic_movie_24 else R.drawable.ic_tvshow_24
-                Glide.with(root).load(url).centerCrop().placeholder(placeholderImg).into(ivPosterOrPhoto)
+                val placeholderID = if (item.media_type == "movie") R.drawable.ic_movie_24 else R.drawable.ic_tvshow_24
+                if (item.poster_path != null) {
+                    val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"
+                    Glide.with(root).load(url).centerCrop().placeholder(placeholderID).into(ivPosterOrPhoto)
+                } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
 
                 // Navigation:
                 binding.tileBackground.setOnClickListener {

@@ -58,9 +58,12 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
     }
 
     // Displaying current Movie's / TV Show's poster:
+    @SuppressLint("UseCompatLoadingForDrawables")
     protected fun displayPoster(path : String?, placeholderID : Int) {
-        val url = "https://image.tmdb.org/t/p/w185${path}"
-        Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderID).into(binding.ivPosterOrPhoto)
+        if (path != null) {
+            val url = "https://image.tmdb.org/t/p/w185$path"
+            Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderID).into(binding.ivPosterOrPhoto)
+        } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
     }
 
     // Displaying current Movie's / TV Show's title:

@@ -87,14 +87,17 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
     }
 
     // Displaying current person's photo:
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun displayPhoto(profilePath : String?, gender : Int) {
-        val url = "https://image.tmdb.org/t/p/w185$profilePath"
-        val placeholderImg: Int = when (gender) {
+        val placeholderID: Int = when (gender) {
             2 -> R.drawable.ic_person_24_man        // man
             1 -> R.drawable.ic_person_24_woman      // woman
             else -> R.drawable.ic_person_24_human   // unknown
         }
-        Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderImg).into(binding.ivPosterOrPhoto)
+        if (profilePath != null) {
+            val url = "https://image.tmdb.org/t/p/w185$profilePath"
+            Glide.with(binding.root).load(url).centerCrop().placeholder(placeholderID).into(binding.ivPosterOrPhoto)
+        } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
     }
 
     // Displaying current person's days of birth and death:

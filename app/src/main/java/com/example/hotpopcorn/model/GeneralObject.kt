@@ -5,7 +5,7 @@ data class GeneralObject (
     // General:
     val id : Int,
     val media_type: String,    // tv or movie
-    val poster_path : String,  // poster
+    val poster_path : String?, // poster
     val popularity : Double,
 
     // Where?

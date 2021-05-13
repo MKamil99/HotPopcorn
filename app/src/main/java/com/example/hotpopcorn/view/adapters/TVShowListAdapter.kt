@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -21,6 +22,7 @@ class TVShowListAdapter(private val shows : List<TVShow>,
     override fun getItemCount(): Int = shows.size
 
     inner class ViewHolder(private val binding: ItemRowBinding): RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(item : TVShow) {
             with(binding) {
                 // Title and release date:
@@ -29,8 +31,10 @@ class TVShowListAdapter(private val shows : List<TVShow>,
                 catch (e: Exception) { tvReleaseOrBirth.text = "" }
 
                 // Poster:
-                val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"
-                Glide.with(root).load(url).centerCrop().placeholder(R.drawable.ic_tvshow_24).into(ivPosterOrPhoto)
+                if (item.poster_path != null) {
+                    val url = "https://image.tmdb.org/t/p/w185${item.poster_path}"
+                    Glide.with(root).load(url).centerCrop().placeholder(R.drawable.ic_tvshow_24).into(ivPosterOrPhoto)
+                } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(R.drawable.ic_tvshow_24, binding.root.context.theme))
 
                 // Navigation:
                 binding.rowBackground.setOnClickListener {

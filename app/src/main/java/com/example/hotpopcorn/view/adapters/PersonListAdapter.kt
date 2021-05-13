@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -20,19 +21,22 @@ class PersonListAdapter(private val people: List<Person>,
     override fun getItemCount(): Int = people.size
 
     inner class ViewHolder(private val binding: ItemRowBinding): RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(item : Person) {
             with(binding) {
                 // Name:
                 tvTitleOrName.text = item.name
 
                 // Photo:
-                val url = "https://image.tmdb.org/t/p/w185${item.profile_path}"
-                val placeholderImg : Int = when(item.gender) {
+                val placeholderID : Int = when(item.gender) {
                     2 -> R.drawable.ic_person_24_man        // man
                     1 -> R.drawable.ic_person_24_woman      // woman
                     else -> R.drawable.ic_person_24_human   // unknown
                 }
-                Glide.with(root).load(url).centerCrop().placeholder(placeholderImg).into(ivPosterOrPhoto)
+                if (item.profile_path != null) {
+                    val url = "https://image.tmdb.org/t/p/w185${item.profile_path}"
+                    Glide.with(root).load(url).centerCrop().placeholder(placeholderID).into(ivPosterOrPhoto)
+                } else binding.ivPosterOrPhoto.setImageDrawable(binding.root.resources.getDrawable(placeholderID, binding.root.context.theme))
 
                 // Navigation:
                 binding.rowBackground.setOnClickListener {

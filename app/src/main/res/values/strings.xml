@@ -34,6 +34,7 @@
     <string name="search_button_description">Search</string>
     <string name="logout_button_description">Logout</string>
     <string name="details_button_description">Save the movie / TV Show</string>
+    <string name="auth_image_description">Logo</string>
 
     <!-- LOGIN AND REGISTER SCREENS  -->
     <string name="login_screen_button">LOGIN</string>
@@ -61,5 +62,9 @@
     <string name="preferenceGroupName">rememberedUser</string>
     <string name="preferenceEmailName">rememberedEmail</string>
     <string name="preferencePasswordName">rememberedPassword</string>
-    <string name="auth_image_description">Logo</string>
+
+    <!-- SPLASH SCREEN -->
+    <string name="splash_screen_main_description">Hot Popcorn Logo</string>
+    <string name="splash_screen_footer_description">TMDB Logo</string>
+    <string name="splash_screen_footer_content">This product uses the TMDb API but is not endorsed or certified by TMDb.</string>
 </resources>

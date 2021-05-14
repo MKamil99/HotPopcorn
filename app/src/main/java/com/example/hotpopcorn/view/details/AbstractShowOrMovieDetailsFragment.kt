@@ -89,8 +89,8 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
             var runtimeSum = 0
             runtimes.forEach { x -> runtimeSum += (x ?: 0) }
             binding.tvRuntime.text =
-                if (mediaType == "movie") "Episode runtime: ${runtimeSum / runtimes.size} minutes"
-                else "Runtime: ${runtimeSum / runtimes.size} minutes"
+                if (mediaType == "movie") "Runtime: ${runtimeSum / runtimes.size} minutes"
+                else "Episode runtime: ${runtimeSum / runtimes.size} minutes"
             if (runtimeSum > 0) binding.tvRuntime.visibility = View.VISIBLE
         } else binding.tvRuntime.visibility = View.GONE
     }

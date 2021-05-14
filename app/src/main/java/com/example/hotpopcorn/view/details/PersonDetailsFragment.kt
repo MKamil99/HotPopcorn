@@ -50,7 +50,7 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         personVM.currentPerson.observe(viewLifecycleOwner, { currentPerson ->
             // Displaying current person's data in TextViews and ImageView:
             binding.tvTitleOrName.text = currentPerson.name
-            displayDates(currentPerson.birthday, currentPerson.deathDay)
+            displayDates(currentPerson.birthday, currentPerson.deathday)
             binding.tvRuntime.visibility = View.GONE
             displayDepartment(currentPerson.known_for_department)
             displayPlaceOfBirth(currentPerson.place_of_birth)

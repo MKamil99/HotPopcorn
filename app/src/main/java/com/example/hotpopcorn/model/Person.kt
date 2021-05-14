@@ -11,7 +11,7 @@ data class Person (
     // Details:
     val biography: String?,
     val birthday: String?,
-    val deathDay: String?,
+    val deathday: String?,
     val place_of_birth: String?,
     val known_for_department : String?, // acting, directing, etc.
 

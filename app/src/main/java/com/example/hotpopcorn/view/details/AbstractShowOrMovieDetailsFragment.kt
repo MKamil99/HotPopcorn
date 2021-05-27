@@ -180,12 +180,12 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
         // Adding layout and adapter to RecyclerView:
         recyclerView.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = PeopleInMovieAndTVShowAdapter(listToObserve, personVM, movieOrTVShow, castOrCrew)
+            this.adapter = PeopleInMovieAndTVShowAdapter(personVM, movieOrTVShow, castOrCrew)
         }
 
         // Starting observing to update at runtime:
         listToObserve.observe(viewLifecycleOwner, {
-            recyclerView.adapter?.notifyDataSetChanged()
+            (recyclerView.adapter as PeopleInMovieAndTVShowAdapter).setData(it)
             header.visibility = if (listToObserve.value.isNullOrEmpty()) View.GONE else View.VISIBLE
             recyclerView.visibility = if (listToObserve.value.isNullOrEmpty()) View.GONE else View.VISIBLE
         })

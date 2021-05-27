@@ -19,12 +19,12 @@ class PeopleFragment : AbstractGeneralFragment() {
         // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = PersonListAdapter(personVM.peopleWithMatchingName, personVM)
+            this.adapter = PersonListAdapter(personVM)
         }
 
         // Starting observing to update at runtime:
         personVM.peopleWithMatchingName.observe(viewLifecycleOwner, {
-            binding.rvGeneralList.adapter?.notifyDataSetChanged() })
+            (binding.rvGeneralList.adapter as PersonListAdapter).setData(it) })
 
         return binding.root
     }

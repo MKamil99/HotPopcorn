@@ -19,13 +19,12 @@ class MoviesFragment : AbstractGeneralFragment() {
         // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = MovieListAdapter(movieVM.moviesWithMatchingTitle, movieVM)
+            this.adapter = MovieListAdapter(movieVM)
         }
 
         // Starting observing to update at runtime:
         movieVM.moviesWithMatchingTitle.observe(viewLifecycleOwner, {
-            binding.rvGeneralList.adapter?.notifyDataSetChanged()
-        })
+            (binding.rvGeneralList.adapter as MovieListAdapter).setData(it) })
 
         return binding.root
     }

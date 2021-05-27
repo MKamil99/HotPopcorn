@@ -27,11 +27,11 @@ abstract class AbstractGeneralFragmentForLibrary : AbstractGeneralFragment() {
         // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = SavedObjectListAdapter(listToObserve, movieVM, showVM)
+            this.adapter = SavedObjectListAdapter(movieVM, showVM)
         }
 
         // Starting observing to update at runtime:
         listToObserve.observe(viewLifecycleOwner, {
-            binding.rvGeneralList.adapter?.notifyDataSetChanged() })
+            (binding.rvGeneralList.adapter as SavedObjectListAdapter).setData(it) })
     }
 }

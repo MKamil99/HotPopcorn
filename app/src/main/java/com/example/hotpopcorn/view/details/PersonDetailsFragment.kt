@@ -163,13 +163,13 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         // Adding layout and adapter to RecyclerView:
         recyclerView.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = MoviesAndTVShowsInPersonAdapter(listToObserve, movieVM, showVM, inCastOrInCrew)
+            this.adapter = MoviesAndTVShowsInPersonAdapter(movieVM, showVM, inCastOrInCrew)
         }
 
         // Starting observing to update at runtime:
         listToObserve.observe(viewLifecycleOwner, {
             // Update RecyclerView:
-            recyclerView.adapter?.notifyDataSetChanged()
+            (recyclerView.adapter as MoviesAndTVShowsInPersonAdapter).setData(it)
             // Update headers:
             if (listToObserve.value.isNullOrEmpty()) {
                 currentHeader.visibility = View.GONE

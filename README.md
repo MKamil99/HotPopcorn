@@ -33,13 +33,17 @@ and in code structure (eg. another way of binding layouts, some abstract classes
 * Firebase Auth 21.0.1 - library responsible for authentication in Firebase.
 
 ### How to compile it?
-Hot Popcorn uses REST API with API KEY. If you just want to test it on your mobile phone, you can download an .apk from Releases and install it.
-Otherwise, if you want to change something in the code and compile it by yourself, you'll have to **generate your own API KEY** as it is not contained 
-in this repository. To do it, follow the steps from this [instruction](https://developers.themoviedb.org/3/getting-started/introduction) and replace
-the value of apiKey in the **line 68 of model/api/ApiRequest.kt file** with your key:
+Hot Popcorn uses Firebase and TMDB REST API. Both of them need API keys, which means that you'll 
+have to generate your own ones as they are not contained in this repository. At first, 
+follow the steps from this [instruction](https://developers.themoviedb.org/3/getting-started/introduction) to **create a developer account in TMDB service**. 
+After you get the Key, place it in the **line 68 of model/api/ApiRequest.kt file**:
 ```
 private const val apiKey: String = "YOUR_API_KEY"    // PLACE YOUR API KEY HERE
 ```
+Then, follow this [instruction](https://firebase.google.com/docs/android/setup) to **register your application in the Firebase**. 
+During this step you'll have to download your own ```google-services.json``` file and place it in the ```app``` directory.
+Also don't forget to **enable Firebase Database and Firebase Authentication** in your Firebase Console. If you do it correctly, 
+you'll be able to use all functionalities of the application.
 
 ### How to use it?
 Before you get access to main content, you have to **login** or **register**. For now, you can do it only by your e-mail. 

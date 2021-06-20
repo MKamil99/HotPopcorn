@@ -7,8 +7,16 @@ import retrofit2.Call
 
 // Functions connected with Movie objects - general and details:
 class MovieRepository(private val apiRequest : ApiRequest) {
-    fun searchForMovies(someText : String) : Call<MovieListResponse> = apiRequest.searchForMovies(someText)
-    fun getPopularMovies() : Call<MovieListResponse> = apiRequest.getPopularMovies()
-    fun getMovieDetails(movieID : Int) : Call<Movie> = apiRequest.getMovieDetails(movieID)
-    fun getPeopleFromThisMovie(movieID: Int) : Call<PeopleFromMovieOrTVShowListResponse> = apiRequest.getPeopleFromThisMovie(movieID)
+    fun searchForMovies(someText : String, language : String) : Call<MovieListResponse> {
+        return apiRequest.searchForMovies(someText, language)
+    }
+    fun getPopularMovies(language : String) : Call<MovieListResponse> {
+        return apiRequest.getPopularMovies(language)
+    }
+    fun getMovieDetails(movieID : Int, language : String) : Call<Movie> {
+        return apiRequest.getMovieDetails(movieID, language)
+    }
+    fun getPeopleFromThisMovie(movieID : Int, language : String) : Call<PeopleFromMovieOrTVShowListResponse> {
+        return apiRequest.getPeopleFromThisMovie(movieID, language)
+    }
 }

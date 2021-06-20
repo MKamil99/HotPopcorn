@@ -2,7 +2,6 @@ package com.example.hotpopcorn.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotpopcorn.model.api.MovieRepository
 import com.example.hotpopcorn.model.api.ApiRequest
@@ -12,7 +11,7 @@ import kotlinx.coroutines.launch
 import retrofit2.awaitResponse
 
 // ViewModel which connects Movies' Fragments with Movies' Repository (and API):
-class MovieViewModel : ViewModel() {
+class MovieViewModel : LanguageViewModel() {
     private val repository : MovieRepository = MovieRepository(ApiRequest.getAPI())
 
     //                           MOVIE SEARCH AND POPULAR MOVIES
@@ -21,8 +20,8 @@ class MovieViewModel : ViewModel() {
     fun setMoviesWithMatchingTitle(givenText : String) {
         viewModelScope.launch {
             val response =
-                if (givenText != "") repository.searchForMovies(givenText).awaitResponse()
-                else repository.getPopularMovies().awaitResponse()
+                if (givenText != "") repository.searchForMovies(givenText, language).awaitResponse()
+                else repository.getPopularMovies(language).awaitResponse()
             if (response.isSuccessful)
                 mutMoviesWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
@@ -33,7 +32,7 @@ class MovieViewModel : ViewModel() {
     val currentMovie : LiveData<Movie> get() = mutCurrentMovie
     fun setCurrentMovie(currentMovieID : Int) {
         viewModelScope.launch {
-            val response = repository.getMovieDetails(currentMovieID).awaitResponse()
+            val response = repository.getMovieDetails(currentMovieID, language).awaitResponse()
             if (response.isSuccessful) mutCurrentMovie.value = response.body()
         }
     }
@@ -45,7 +44,7 @@ class MovieViewModel : ViewModel() {
     val currentMovieCrew : LiveData<List<Person>> get() = mutCurrentMovieCrew
     fun setPeopleConnectedWithCurrentMovie(currentMovieID : Int) {
         viewModelScope.launch {
-            val response = repository.getPeopleFromThisMovie(currentMovieID).awaitResponse()
+            val response = repository.getPeopleFromThisMovie(currentMovieID, language).awaitResponse()
             if (response.isSuccessful) {
                 mutCurrentMovieCast.value = response.body()?.cast?.sortedByDescending { it.popularity }
                 mutCurrentMovieCrew.value = response.body()?.crew?.sortedByDescending { it.popularity }

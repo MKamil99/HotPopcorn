@@ -33,7 +33,7 @@ and in code structure (eg. another way of binding layouts, some abstract classes
 Hot Popcorn uses Firebase and TMDB REST API. Both of them need API keys, which means that you'll 
 have to generate your own ones as they are not contained in this repository. At first, 
 follow the steps from this [instruction](https://developers.themoviedb.org/3/getting-started/introduction) to **create a developer account in TMDB service**. 
-After you get the Key, place it in the **line 68 of model/api/ApiRequest.kt file**:
+After you get the Key, place it in the **line 78 of model/api/ApiRequest.kt file**:
 ```
 private const val apiKey: String = "YOUR_API_KEY"    // PLACE YOUR API KEY HERE
 ```

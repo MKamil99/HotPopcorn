@@ -2,7 +2,6 @@ package com.example.hotpopcorn.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotpopcorn.model.Person
 import com.example.hotpopcorn.model.TVShow
@@ -12,7 +11,7 @@ import kotlinx.coroutines.launch
 import retrofit2.awaitResponse
 
 // ViewModel which connects TV Shows' Fragments with TV Shows' Repository (and API):
-class TVShowViewModel : ViewModel() {
+class TVShowViewModel : LanguageViewModel() {
     private val repository : TVShowRepository = TVShowRepository(ApiRequest.getAPI())
 
     //                                TV SHOW SEARCH AND POPULAR TV SHOWS
@@ -21,8 +20,8 @@ class TVShowViewModel : ViewModel() {
     fun setTVShowsWithMatchingTitle(givenText : String) {
         viewModelScope.launch {
             val response =
-                if (givenText != "") repository.searchForTVShows(givenText).awaitResponse()
-                else repository.getPopularTVShows().awaitResponse()
+                if (givenText != "") repository.searchForTVShows(givenText, language).awaitResponse()
+                else repository.getPopularTVShows(language).awaitResponse()
             if (response.isSuccessful)
                 mutTVShowsWithMatchingTitle.value = response.body()?.results?.sortedByDescending { it.popularity }
         }
@@ -33,7 +32,7 @@ class TVShowViewModel : ViewModel() {
     val currentTVShow : LiveData<TVShow> get() = mutCurrentTVShow
     fun setCurrentTVShow(currentTVShowID : Int) {
         viewModelScope.launch {
-            val response = repository.getTVShowDetails(currentTVShowID).awaitResponse()
+            val response = repository.getTVShowDetails(currentTVShowID, language).awaitResponse()
             if (response.isSuccessful) mutCurrentTVShow.value = response.body()
         }
     }
@@ -45,7 +44,7 @@ class TVShowViewModel : ViewModel() {
     val currentTVShowCrew : LiveData<List<Person>> get() = mutCurrentTVShowCrew
     fun setPeopleConnectedWithCurrentTVShow(currentTVShowID : Int) {
         viewModelScope.launch {
-            val response = repository.getPeopleFromThisTVShow(currentTVShowID).awaitResponse()
+            val response = repository.getPeopleFromThisTVShow(currentTVShowID, language).awaitResponse()
             if (response.isSuccessful) {
                 mutCurrentTVShowCast.value = response.body()?.cast?.sortedByDescending { it.popularity }
                 mutCurrentTVShowCrew.value = response.body()?.crew?.sortedByDescending { it.popularity }

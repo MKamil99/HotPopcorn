@@ -1,8 +1,11 @@
 package com.example.hotpopcorn.viewmodel
 
 import androidx.lifecycle.ViewModel
-import java.util.*
 
 abstract class LanguageViewModel : ViewModel() {
-    protected val language = if (Locale.getDefault().displayLanguage == "polski") "pl-PL" else "en-US"
+    // The TMDB API provides using many different languages,
+    // but the translations are often in bad condition, so for now
+    // the best option is to make the "language" variable constant
+    // (with possibility to change this VM's code in the future).
+    protected val language = "en-US"
 }

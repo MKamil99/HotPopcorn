@@ -5,6 +5,7 @@
 * [How to compile it?](#how-to-compile-it)
 * [How to use it?](#how-to-use-it)
 * [Project status](#project-status)
+* [Credits](#credits)
 
 ### Project description
 **Hot Popcorn** is a remastered version of [Popcorn](https://github.com/xlimiii/Popcorn) application. 
@@ -92,3 +93,6 @@ The project is useful and almost complete, but there are still some **features t
 * **possibility to work offline** - the application doesn't work without access to Internet or API,
 * **possibility to use Google account** or any other social media account, which is much more convenient than using the email,
 * **possibility to remind the password** if user forgets it.
+
+### Credits
+Icons used in this project come mostly from [Flaticon](https://www.flaticon.com/).

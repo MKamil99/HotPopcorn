@@ -1,10 +1,14 @@
 package com.example.hotpopcorn.view.details
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.hotpopcorn.R
 import com.example.hotpopcorn.viewmodel.MovieViewModel
+
 
 class MovieDetailsFragment : AbstractShowOrMovieDetailsFragment() {
     private lateinit var movieVM : MovieViewModel
@@ -18,6 +22,9 @@ class MovieDetailsFragment : AbstractShowOrMovieDetailsFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieVM.currentMovie.observe(viewLifecycleOwner, { currentMovie ->
+            // Displaying current movie's title in ActionBar:
+            (activity as AppCompatActivity?)?.supportActionBar?.subtitle = currentMovie.title
+
             // Displaying current movie's data in TextViews and ImageView:
             displayTitle(currentMovie.title)
             displayReleaseDate(currentMovie.release_date, "movie")

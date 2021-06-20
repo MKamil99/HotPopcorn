@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +49,9 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         personVM.currentPerson.observe(viewLifecycleOwner, { currentPerson ->
+            // Displaying current person's name in ActionBar:
+            (activity as AppCompatActivity?)?.supportActionBar?.subtitle = currentPerson.name
+
             // Displaying current person's data in TextViews and ImageView:
             binding.tvTitleOrName.text = currentPerson.name
             displayDates(currentPerson.birthday, currentPerson.deathday)

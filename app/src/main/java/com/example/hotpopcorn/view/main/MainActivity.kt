@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -60,6 +61,17 @@ class MainActivity : AppCompatActivity() {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
             }
         }
+
+        // Displaying subtitle and Home Icon only in Details:
+        val bar = (this as AppCompatActivity?)?.supportActionBar
+        bar?.setHomeAsUpIndicator(R.drawable.ic_home_24)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.exploreFragment || destination.id == R.id.libraryFragment) {
+                bar?.subtitle = null
+                bar?.setDisplayHomeAsUpEnabled(false)
+            } else bar?.setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     // Managing the menu:
@@ -88,6 +100,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         return true
+    }
+
+    // Managing the Home Button:
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            startActivity(Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     // Listening to Firebase Realtime Database and saving data that will be displayed in Library Fragment:

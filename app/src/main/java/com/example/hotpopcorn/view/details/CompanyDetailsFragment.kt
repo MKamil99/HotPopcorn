@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.hotpopcorn.databinding.FragmentCompanyDetailsBinding
@@ -31,6 +32,9 @@ class CompanyDetailsFragment : AbstractDetailsFragment() {
         super.onViewCreated(view, savedInstanceState)
         // Displaying current company's data in TextViews and ImageView:
         companyVM.currentCompany.observe(viewLifecycleOwner, { currentCompany ->
+            // Displaying current company's name in ActionBar:
+            (activity as AppCompatActivity?)?.supportActionBar?.subtitle = currentCompany.name
+
             // Name:
             binding.tvCompanyName.text = currentCompany.name
 

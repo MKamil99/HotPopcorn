@@ -2,6 +2,7 @@ package com.example.hotpopcorn.view.details
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.hotpopcorn.R
 import com.example.hotpopcorn.viewmodel.TVShowViewModel
@@ -18,6 +19,9 @@ class TVShowDetailsFragment : AbstractShowOrMovieDetailsFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showVM.currentTVShow.observe(viewLifecycleOwner, { currentTVShow ->
+            // Displaying current TV Show's title in ActionBar:
+            (activity as AppCompatActivity?)?.supportActionBar?.subtitle = currentTVShow.name
+
             // Displaying current TV Show's data in TextViews and ImageView:
             displayTitle(currentTVShow.name)
             displayReleaseDate(currentTVShow.first_air_date, "tv")

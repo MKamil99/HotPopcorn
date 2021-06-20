@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HotPopcorn</string>
+    <string name="app_name">Hot Popcorn</string>
 
     <!-- TABS -->
     <string name="explore_tab">Explore</string>
@@ -18,11 +18,24 @@
     <string name="description_header">Description</string>
     <string name="cast_header">Cast</string>
     <string name="crew_header">Crew</string>
+    <string name="releaseMovie_subheader">Release date</string>
+    <string name="releaseShow_subheader">First episode air date</string>
+    <string name="runtimeMovie_subheader">Runtime</string>
+    <string name="runtimeShow_subheader">Episode runtime</string>
+    <string name="genres_subheader">Genres</string>
+    <string name="languages_subheader">Languages</string>
+    <string name="company_subheader">Company</string>
+    <string name="rating_subheader">Rating</string>
 
     <!-- PERSON DETAILS -->
     <string name="biography_header">Biography</string>
     <string name="incast_header">Performed in</string>
     <string name="increw_header">Crew of</string>
+    <string name="born_subheader">Born</string>
+    <string name="died_subheader">Died</string>
+    <string name="age_subheader">years old</string>
+    <string name="known_subheader">Known for</string>
+    <string name="place_subheader">Place of Birth</string>
 
     <!-- DETAILS TOASTS -->
     <string name="added_to_towatch">Added to: TO WATCH</string>

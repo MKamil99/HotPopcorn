@@ -76,8 +76,8 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
     protected fun displayReleaseDate(date : String?, mediaType: String) {
         if (!date.isNullOrEmpty()) {
             binding.tvYear.text =
-                if (mediaType == "movie") "Release date: $date"
-                else "First episode air date: $date"
+                if (mediaType == "movie") "${getString(R.string.releaseMovie_subheader)}: $date"
+                else "${getString(R.string.releaseShow_subheader)}: $date"
             binding.tvYear.visibility = View.VISIBLE
         } else binding.tvYear.visibility = View.GONE
     }
@@ -89,8 +89,8 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
             var runtimeSum = 0
             runtimes.forEach { x -> runtimeSum += (x ?: 0) }
             binding.tvRuntime.text =
-                if (mediaType == "movie") "Runtime: ${runtimeSum / runtimes.size} minutes"
-                else "Episode runtime: ${runtimeSum / runtimes.size} minutes"
+                if (mediaType == "movie") "${getString(R.string.runtimeMovie_subheader)}: ${runtimeSum / runtimes.size} min"
+                else "${getString(R.string.runtimeShow_subheader)}: ${runtimeSum / runtimes.size} min"
             if (runtimeSum > 0) binding.tvRuntime.visibility = View.VISIBLE
         } else binding.tvRuntime.visibility = View.GONE
     }
@@ -106,7 +106,7 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
                 else genresText += genres[i].name + ", "
                 i += 1
             }
-            binding.tvGenresOrKnownFor.text = "Genres: ${genresText.slice(IntRange(0, genresText.length - 3))}"
+            binding.tvGenresOrKnownFor.text = "${getString(R.string.genres_subheader)}: ${genresText.slice(IntRange(0, genresText.length - 3))}"
             binding.tvGenresOrKnownFor.visibility = View.VISIBLE
         } else binding.tvGenresOrKnownFor.visibility = View.GONE
     }
@@ -125,7 +125,7 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
                 else languagesText += languages[i].english_name + ", "
                 i += 1
             }
-            binding.tvOrigin.text = "Languages: ${languagesText.slice(IntRange(0, languagesText.length - 3))}"
+            binding.tvOrigin.text = "${getString(R.string.languages_subheader)}: ${languagesText.slice(IntRange(0, languagesText.length - 3))}"
             binding.tvOrigin.visibility = View.VISIBLE
         } else binding.tvOrigin.visibility = View.GONE
     }
@@ -135,7 +135,7 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
     protected fun displayMainCompany(companies : List<ProductionCompany>, mediaType : String) {
         if (!companies.isNullOrEmpty()) {
             val currentCompany = companies[0]
-            binding.tvMainCompany.text = "Company: ${currentCompany.name}"
+            binding.tvMainCompany.text = "${getString(R.string.company_subheader)}: ${currentCompany.name}"
             binding.tvMainCompany.visibility = View.VISIBLE
             binding.tvMainCompany.setOnClickListener {
                 companyVM.setCurrentCompany(currentCompany.id)
@@ -149,7 +149,7 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
     @SuppressLint("SetTextI18n")
     protected fun displayAverageVote(vote : Double?) {
         if (vote.toString().isNotEmpty()) {
-            binding.tvAvgVote.text = "Rating: ${vote}/10.0"
+            binding.tvAvgVote.text = "${getString(R.string.rating_subheader)}: ${vote}/10.0"
             binding.tvAvgVote.visibility = View.VISIBLE
         } else binding.tvAvgVote.visibility = View.GONE
     }

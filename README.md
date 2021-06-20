@@ -1,7 +1,4 @@
 # HotPopcorn
-**Hot Popcorn** is a project written for **Mobile Multimedia Interfaces** course during 
-the 6th semester of Computer Science at the Silesian University of Technology.
-
 ### Table of contents
 * [Project description](#project-description)
 * [Used technologies](#used-technologies)
@@ -23,7 +20,7 @@ Another differences between Hot Popcorn and Popcorn are mainly in design (eg. or
 and in code structure (eg. another way of binding layouts, some abstract classes to inherit from, public getters in ViewModels).
 
 ### Used technologies
-* Kotlin 1.4.32 - langauge in which the project has been written,
+* Kotlin 1.5.10 - langauge in which the project has been written,
 * Retrofit 2.9.0 - library responsible for communicating with API,
 * Moshi 2.4.0 - library with JSON converter used by Retrofit,
 * Glide 4.11.0 - library responsible for displaying pictures with given url,

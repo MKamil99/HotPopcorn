@@ -107,14 +107,14 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         // Date of birth:
         if (birthDay.isNullOrEmpty()) binding.tvYear.visibility = View.GONE
         else {
-            binding.tvYear.text = "Born: $birthDay"
+            binding.tvYear.text = "${getString(R.string.born_subheader)}: $birthDay"
 
             // Age:
             if (deathDay.isNullOrEmpty()) {
                 val today = LocalDate.now()
                 val then = LocalDate.parse(birthDay)
                 val diff = ChronoUnit.YEARS.between(then, today)
-                binding.tvYear.text = binding.tvYear.text.toString() + " (${diff} years old)"
+                binding.tvYear.text = binding.tvYear.text.toString() + " (${diff} ${getString(R.string.age_subheader)})"
             }
 
             binding.tvYear.visibility = View.VISIBLE
@@ -124,7 +124,7 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         if (deathDay.isNullOrEmpty() || birthDay.isNullOrEmpty())
             binding.tvYear2.visibility = View.GONE
         else {
-            binding.tvYear2.text = "Died: $deathDay"
+            binding.tvYear2.text = "${getString(R.string.died_subheader)}: $deathDay"
             binding.tvYear2.visibility = View.VISIBLE
         }
     }
@@ -132,7 +132,7 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
     // Displaying current person's department (known-for):
     @SuppressLint("SetTextI18n")
     private fun displayDepartment(department : String?) {
-        binding.tvGenresOrKnownFor.text = "Known for: $department"
+        binding.tvGenresOrKnownFor.text = "${getString(R.string.known_subheader)}: $department"
         if (department.isNullOrEmpty()) binding.tvGenresOrKnownFor.visibility = View.GONE
         else binding.tvGenresOrKnownFor.visibility = View.VISIBLE
     }
@@ -140,7 +140,7 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
     // Displaying current person's place of birth:
     @SuppressLint("SetTextI18n")
     private fun displayPlaceOfBirth(placeOfBirth : String?) {
-        binding.tvOrigin.text = "Place of Birth: $placeOfBirth"
+        binding.tvOrigin.text = "${getString(R.string.place_subheader)}: $placeOfBirth"
         if (placeOfBirth.isNullOrEmpty()) binding.tvOrigin.visibility = View.GONE
         else binding.tvOrigin.visibility = View.VISIBLE
     }

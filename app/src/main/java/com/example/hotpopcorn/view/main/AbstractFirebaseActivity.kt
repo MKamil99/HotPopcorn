@@ -13,6 +13,7 @@ import com.google.firebase.database.*
 
 abstract class AbstractFirebaseActivity : AbstractNetworkActivity() {
     protected lateinit var firebaseVM : FirebaseViewModel
+    private lateinit var myAccount : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +22,7 @@ abstract class AbstractFirebaseActivity : AbstractNetworkActivity() {
         firebaseVM = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
         // Saving database reference and starting to listen to it:
-        val myAccount = FirebaseAuth.getInstance()
+        myAccount = FirebaseAuth.getInstance()
         val dbReference = FirebaseDatabase.getInstance().getReference("users/${myAccount.uid}")
         firebaseVM.setCurrentUserRef(dbReference)
         addFirebaseListener(dbReference)
@@ -61,7 +62,10 @@ abstract class AbstractFirebaseActivity : AbstractNetworkActivity() {
                 }
                 firebaseVM.setSavedObjectsFromFirebase(newRows)
             }
-            override fun onCancelled(error: DatabaseError) { showToast(error.message) }
+            override fun onCancelled(error: DatabaseError) {
+                if (myAccount.currentUser != null)
+                    showToast(error.message)
+            }
         })
     }
 }

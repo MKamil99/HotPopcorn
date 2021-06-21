@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 // ViewModel which stores SavedObjects objects received from Firebase and provides using them in the View:
 class FirebaseViewModel : ViewModel() {
-
     // Current User's Database Reference from Firebase Realtime Database:
     private val mutCurrentUserRef = MutableLiveData<DatabaseReference>()
     val currentUserRef : LiveData<DatabaseReference> get() = mutCurrentUserRef
@@ -36,7 +35,7 @@ class FirebaseViewModel : ViewModel() {
     }
 
     // Searching in database:
-    private val mutMatchingObjectsToWatch      = MutableLiveData<List<SavedObject>>()
+    private val mutMatchingObjectsToWatch = MutableLiveData<List<SavedObject>>()
     private val mutMatchingObjectsWatched = MutableLiveData<List<SavedObject>>()
     val matchingObjectsToWatch : LiveData<List<SavedObject>> get() = mutMatchingObjectsToWatch
     val matchingObjectsWatched : LiveData<List<SavedObject>> get() = mutMatchingObjectsWatched

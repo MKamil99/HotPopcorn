@@ -20,7 +20,7 @@ class TVShowsFragment : AbstractGeneralFragment() {
         // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = TVShowListAdapter(showVM)
+            this.adapter = TVShowListAdapter(showVM, context)
         }
 
         // Starting observing to update at runtime:

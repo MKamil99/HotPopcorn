@@ -1,5 +1,7 @@
 package com.example.hotpopcorn.view.details
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ScrollView
@@ -46,8 +48,10 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
             if (savedObject == null) {
                 changeFABColor(fab, R.color.gray)
                 fab.setOnClickListener {
-                    rowInDatabase?.setValue(objectToSave)?.addOnCompleteListener {
-                        showToast(it, getString(R.string.added_to_towatch))
+                    makeIfConnected(context) {
+                        rowInDatabase?.setValue(objectToSave)?.addOnCompleteListener {
+                            showToast(it, getString(R.string.added_to_towatch))
+                        }
                     }
                 }
             } else {
@@ -55,16 +59,20 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
                 if (savedObject.seen == false) {
                     changeFABColor(fab, android.R.color.holo_red_dark)
                     fab.setOnClickListener {
-                        rowInDatabase?.setValue(objectToSave)?.addOnCompleteListener {
-                            showToast(it, getString(R.string.added_to_watched))
+                        makeIfConnected(context) {
+                            rowInDatabase?.setValue(objectToSave)?.addOnCompleteListener {
+                                showToast(it, getString(R.string.added_to_watched))
+                            }
                         }
                     }
                 // Case 3: Movie / TV Show is in "Watched":
                 } else {
                     changeFABColor(fab, android.R.color.holo_green_dark)
                     fab.setOnClickListener {
-                        rowInDatabase?.removeValue()?.addOnCompleteListener {
-                            showToast(it, getString(R.string.added_to_none))
+                        makeIfConnected(context) {
+                            rowInDatabase?.removeValue()?.addOnCompleteListener {
+                                showToast(it, getString(R.string.added_to_none))
+                            }
                         }
                     }
                 }
@@ -90,5 +98,26 @@ abstract class AbstractDetailsFragmentWithFAB : AbstractDetailsFragment() {
     // Changing color:
     private fun changeFABColor(fab : FloatingActionButton, givenColor: Int) {
         fab.backgroundTintList = AppCompatResources.getColorStateList(requireContext(), givenColor)
+    }
+
+
+
+    //                                      CONNECTION SECTION:
+
+    // Checking connection with the internet:
+    private fun isConnectedToInternet(context: Context?) : Boolean {
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetwork != null
+    }
+
+    // Showing message:
+    private fun showToast(context: Context?) {
+        Toast.makeText(context, context?.getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
+    }
+
+    // Executing code after checking internet connection:
+    protected fun makeIfConnected(context: Context?, actionToMake: () -> Unit) {
+        if (isConnectedToInternet(context)) actionToMake()
+        else showToast(context)
     }
 }

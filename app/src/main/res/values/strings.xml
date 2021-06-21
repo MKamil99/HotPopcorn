@@ -42,6 +42,11 @@
     <string name="added_to_watched">Added to: WATCHED</string>
     <string name="added_to_none">Removed from both lists</string>
 
+    <!-- INTERNET TOASTS -->
+    <string name="no_internet">No internet connection</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connected">Connected</string>
+
     <!-- CONTENT DESCRIPTIONS -->
     <string name="image_description">Poster, logo or photo</string>
     <string name="search_button_description">Search</string>

@@ -138,9 +138,13 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
             binding.tvMainCompany.text = "${getString(R.string.company_subheader)}: ${currentCompany.name}"
             binding.tvMainCompany.visibility = View.VISIBLE
             binding.tvMainCompany.setOnClickListener {
-                companyVM.setCurrentCompany(currentCompany.id)
-                if (mediaType == "movie") binding.root.findNavController().navigate(R.id.action_movieDetailsFragment_to_companyDetailsFragment)
-                else binding.root.findNavController().navigate(R.id.action_TVShowDetailsFragment_to_companyDetailsFragment)
+                makeIfConnected(context) {
+                    companyVM.setCurrentCompany(currentCompany.id)
+                    if (mediaType == "movie")
+                        binding.root.findNavController().navigate(R.id.action_movieDetailsFragment_to_companyDetailsFragment)
+                    else
+                        binding.root.findNavController().navigate(R.id.action_TVShowDetailsFragment_to_companyDetailsFragment)
+                }
             }
         } else binding.tvMainCompany.visibility = View.GONE
     }
@@ -180,7 +184,7 @@ abstract class AbstractShowOrMovieDetailsFragment : AbstractDetailsFragmentWithF
         // Adding layout and adapter to RecyclerView:
         recyclerView.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = PeopleInMovieAndTVShowAdapter(personVM, movieOrTVShow, castOrCrew)
+            this.adapter = PeopleInMovieAndTVShowAdapter(personVM, movieOrTVShow, castOrCrew, context)
         }
 
         // Starting observing to update at runtime:

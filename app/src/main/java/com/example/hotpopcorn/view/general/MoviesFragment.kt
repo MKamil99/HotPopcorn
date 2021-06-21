@@ -19,7 +19,7 @@ class MoviesFragment : AbstractGeneralFragment() {
         // Adding layout and adapter to RecyclerView:
         binding.rvGeneralList.apply {
             this.layoutManager = LinearLayoutManager(context)
-            this.adapter = MovieListAdapter(movieVM)
+            this.adapter = MovieListAdapter(movieVM, context)
         }
 
         // Starting observing to update at runtime:

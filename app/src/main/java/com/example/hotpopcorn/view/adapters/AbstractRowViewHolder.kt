@@ -1,11 +1,10 @@
 package com.example.hotpopcorn.view.adapters
 
 import android.annotation.SuppressLint
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hotpopcorn.databinding.ItemRowBinding
 
-abstract class AbstractRowViewHolder(private val binding: ItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
+abstract class AbstractRowViewHolder(private val binding: ItemRowBinding) : AbstractNetworkViewHolder(binding.root) {
     // Displaying current movie's / TV show's poster or current person's photo:
     @SuppressLint("UseCompatLoadingForDrawables")
     protected fun displayPosterOrPhoto(posterOrPhotoPath : String?, placeholderID : Int) {

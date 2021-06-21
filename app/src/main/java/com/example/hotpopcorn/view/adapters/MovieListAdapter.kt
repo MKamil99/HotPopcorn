@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -9,7 +10,8 @@ import com.example.hotpopcorn.databinding.ItemRowBinding
 import com.example.hotpopcorn.model.Movie
 import com.example.hotpopcorn.viewmodel.MovieViewModel
 
-class MovieListAdapter(private val movieVM : MovieViewModel) : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+class MovieListAdapter(private val movieVM : MovieViewModel,
+                       private val context : Context) : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemRowBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
@@ -26,8 +28,11 @@ class MovieListAdapter(private val movieVM : MovieViewModel) : RecyclerView.Adap
 
             // Navigation:
             binding.rowBackground.setOnClickListener {
-                movieVM.setCurrentMovie(item.id)
-                it.findNavController().navigate(R.id.action_exploreFragment_to_movieDetailsFragment)
+                makeIfConnected(context) {
+                    // Going to new page:
+                    movieVM.setCurrentMovie(item.id)
+                    it.findNavController().navigate(R.id.action_exploreFragment_to_movieDetailsFragment)
+                }
             }
         }
     }

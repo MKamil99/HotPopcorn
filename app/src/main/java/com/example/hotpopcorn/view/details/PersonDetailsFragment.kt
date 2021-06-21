@@ -167,7 +167,7 @@ class PersonDetailsFragment : AbstractDetailsFragment() {
         // Adding layout and adapter to RecyclerView:
         recyclerView.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = MoviesAndTVShowsInPersonAdapter(movieVM, showVM, inCastOrInCrew)
+            this.adapter = MoviesAndTVShowsInPersonAdapter(movieVM, showVM, inCastOrInCrew, context)
         }
 
         // Starting observing to update at runtime:

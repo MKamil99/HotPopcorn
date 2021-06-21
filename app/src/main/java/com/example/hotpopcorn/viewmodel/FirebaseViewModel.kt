@@ -3,8 +3,10 @@ package com.example.hotpopcorn.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.hotpopcorn.model.SavedObject
 import com.google.firebase.database.DatabaseReference
+import kotlinx.coroutines.launch
 
 // ViewModel which stores SavedObjects objects received from Firebase and provides using them in the View:
 class FirebaseViewModel : ViewModel() {
@@ -22,13 +24,15 @@ class FirebaseViewModel : ViewModel() {
     private val mutObjectsOverall = MutableLiveData<List<SavedObject>>()
     val objectsOverall : LiveData<List<SavedObject>> get() = mutObjectsOverall
     fun setSavedObjectsFromFirebase(savedObjects : List<SavedObject>) {
-        mutObjectsToWatch.value = savedObjects
-            .filter { savedObject -> savedObject.seen == false }
-            .sortedByDescending { x -> x.timeOfSaving }
-        mutObjectWatched.value = savedObjects
-            .filter { savedObject -> savedObject.seen == true }
-            .sortedByDescending { x -> x.timeOfSaving }
-        mutObjectsOverall.value = savedObjects
+        viewModelScope.launch {
+            mutObjectsToWatch.value = savedObjects
+                .filter { savedObject -> savedObject.seen == false }
+                .sortedByDescending { x -> x.timeOfSaving }
+            mutObjectWatched.value = savedObjects
+                .filter { savedObject -> savedObject.seen == true }
+                .sortedByDescending { x -> x.timeOfSaving }
+            mutObjectsOverall.value = savedObjects
+        }
     }
 
     // Searching in database:
@@ -37,15 +41,17 @@ class FirebaseViewModel : ViewModel() {
     val matchingObjectsToWatch : LiveData<List<SavedObject>> get() = mutMatchingObjectsToWatch
     val matchingObjectsWatched : LiveData<List<SavedObject>> get() = mutMatchingObjectsWatched
     fun setMatchingSavedObjects(givenText : String) {
-        // TO WATCH:
-        mutMatchingObjectsToWatch.value =
-            if (givenText == "") mutObjectsToWatch.value
-            else mutObjectsToWatch.value
-                ?.filter { x -> x.title.contains(givenText) }
-        // WATCHED:
-        mutMatchingObjectsWatched.value =
-            if (givenText == "") mutObjectWatched.value
-            else mutObjectWatched.value
-                ?.filter { x -> x.title.contains(givenText) }
+        viewModelScope.launch {
+            // TO WATCH:
+            mutMatchingObjectsToWatch.value =
+                if (givenText == "") mutObjectsToWatch.value
+                else mutObjectsToWatch.value
+                    ?.filter { x -> x.title.contains(givenText) }
+            // WATCHED:
+            mutMatchingObjectsWatched.value =
+                if (givenText == "") mutObjectWatched.value
+                else mutObjectWatched.value
+                    ?.filter { x -> x.title.contains(givenText) }
+        }
     }
 }

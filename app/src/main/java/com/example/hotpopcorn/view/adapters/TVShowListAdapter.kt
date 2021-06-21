@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -9,7 +10,8 @@ import com.example.hotpopcorn.databinding.ItemRowBinding
 import com.example.hotpopcorn.model.TVShow
 import com.example.hotpopcorn.viewmodel.TVShowViewModel
 
-class TVShowListAdapter(private val showVM : TVShowViewModel) : RecyclerView.Adapter<TVShowListAdapter.ViewHolder>() {
+class TVShowListAdapter(private val showVM : TVShowViewModel,
+                        private val context : Context) : RecyclerView.Adapter<TVShowListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemRowBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
@@ -26,8 +28,11 @@ class TVShowListAdapter(private val showVM : TVShowViewModel) : RecyclerView.Ada
 
             // Navigation:
             binding.rowBackground.setOnClickListener {
-                showVM.setCurrentTVShow(item.id)
-                it.findNavController().navigate(R.id.action_exploreFragment_to_TVShowDetailsFragment)
+                makeIfConnected(context) {
+                    // Going to new page:
+                    showVM.setCurrentTVShow(item.id)
+                    it.findNavController().navigate(R.id.action_exploreFragment_to_TVShowDetailsFragment)
+                }
             }
         }
     }

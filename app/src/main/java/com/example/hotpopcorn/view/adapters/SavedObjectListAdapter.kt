@@ -1,6 +1,7 @@
 package com.example.hotpopcorn.view.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -12,7 +13,8 @@ import com.example.hotpopcorn.viewmodel.MovieViewModel
 import com.example.hotpopcorn.viewmodel.TVShowViewModel
 
 class SavedObjectListAdapter(private val movieVM : MovieViewModel,
-                             private val showVM : TVShowViewModel) : RecyclerView.Adapter<SavedObjectListAdapter.ViewHolder>() {
+                             private val showVM : TVShowViewModel,
+                             private val context : Context) : RecyclerView.Adapter<SavedObjectListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemRowBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
@@ -30,13 +32,16 @@ class SavedObjectListAdapter(private val movieVM : MovieViewModel,
 
             // Navigation:
             binding.rowBackground.setOnClickListener {
-                if (item.movieOrTVShowID != null) {
-                    if (item.mediaType == "movie") {
-                        movieVM.setCurrentMovie(item.movieOrTVShowID)
-                        it.findNavController().navigate(R.id.action_libraryFragment_to_movieDetailsFragment)
-                    } else if (item.mediaType == "tv") {
-                        showVM.setCurrentTVShow(item.movieOrTVShowID)
-                        it.findNavController().navigate(R.id.action_libraryFragment_to_TVShowDetailsFragment)
+                makeIfConnected(context) {
+                    // Going to new page:
+                    if (item.movieOrTVShowID != null) {
+                        if (item.mediaType == "movie") {
+                            movieVM.setCurrentMovie(item.movieOrTVShowID)
+                            it.findNavController().navigate(R.id.action_libraryFragment_to_movieDetailsFragment)
+                        } else if (item.mediaType == "tv") {
+                            showVM.setCurrentTVShow(item.movieOrTVShowID)
+                            it.findNavController().navigate(R.id.action_libraryFragment_to_TVShowDetailsFragment)
+                        }
                     }
                 }
             }

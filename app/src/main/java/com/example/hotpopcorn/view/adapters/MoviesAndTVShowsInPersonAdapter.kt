@@ -1,5 +1,6 @@
 package com.example.hotpopcorn.view.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -12,7 +13,8 @@ import com.example.hotpopcorn.viewmodel.TVShowViewModel
 
 class MoviesAndTVShowsInPersonAdapter(private val movieVM : MovieViewModel,
                                       private val showVM: TVShowViewModel,
-                                      private val inCastOrInCrew : String) : RecyclerView.Adapter<MoviesAndTVShowsInPersonAdapter.ViewHolder>() {
+                                      private val inCastOrInCrew : String,
+                                      private val context : Context) : RecyclerView.Adapter<MoviesAndTVShowsInPersonAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemTileBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
@@ -29,12 +31,15 @@ class MoviesAndTVShowsInPersonAdapter(private val movieVM : MovieViewModel,
 
             // Navigation:
             binding.tileBackground.setOnClickListener {
-                if (item.media_type == "movie") {
-                    movieVM.setCurrentMovie(item.id)
-                    it.findNavController().navigate(R.id.action_personDetailsFragment_to_movieDetailsFragment)
-                } else {
-                    showVM.setCurrentTVShow(item.id)
-                    it.findNavController().navigate(R.id.action_personDetailsFragment_to_TVShowDetailsFragment)
+                makeIfConnected(context) {
+                    // Going to new page:
+                    if (item.media_type == "movie") {
+                        movieVM.setCurrentMovie(item.id)
+                        it.findNavController().navigate(R.id.action_personDetailsFragment_to_movieDetailsFragment)
+                    } else {
+                        showVM.setCurrentTVShow(item.id)
+                        it.findNavController().navigate(R.id.action_personDetailsFragment_to_TVShowDetailsFragment)
+                    }
                 }
             }
         }

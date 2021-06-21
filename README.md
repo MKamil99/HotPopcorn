@@ -9,11 +9,11 @@
 
 ### Project description
 **Hot Popcorn** is a remastered version of [Popcorn](https://github.com/xlimiii/Popcorn) application. 
-Similarly to previous one, it  uses **The Movie Database API** to present information **about movies, people and TV Shows**.
-You can **search for** specific title / person or check what is popular nowadays. Each movie and TV Show is presented really 
-precisely - you can get to know what is it about, when and where it was produced, which languages are used in it, how long it lasts, 
-which genres it represents, who plays in it, who produced it and what rating it has. You can also check when and where specific person
-was born, when he/she died, with which movies and TV shows is connected and read his/her biography.
+Similarly to previous one, it  uses [**The Movie Database API**](https://developers.themoviedb.org/3) to present information 
+**about movies, people and TV Shows**. You can **search for** specific title / person or check what is popular nowadays. 
+Each movie and TV Show is presented really precisely - you can get to know what is it about, when and where it was produced, 
+which languages are used in it, how long it lasts, which genres it represents, who plays in it, who produced it and what rating it has. 
+You can also check when and where specific person was born, when he/she died, with which movies and TV shows is connected and read his/her biography.
 
 This time to store the data, the application uses two **Firebase** modules: **Authentication** and **Realtime Database**. 
 Thanks to them, you can have your own account, login on any device you want and save interesting titles just for you. 

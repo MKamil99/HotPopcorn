@@ -49,8 +49,8 @@ If you do it once, your email and password will be remembered so after launching
 What is more, if you don't log out, you will be still logged in after relaunching the app.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/43967269/118283405-9e2e5a80-b4cf-11eb-851d-7d7e259c2b6f.png" alt="Login Screen">
-<img src="https://user-images.githubusercontent.com/43967269/118283468-adada380-b4cf-11eb-94a9-36151e0413b1.png" alt="Register Screen">
+<img src="https://user-images.githubusercontent.com/43967269/122762461-9e273480-d29d-11eb-89aa-40d2fb4193ed.png" alt="Login Screen">
+<img src="https://user-images.githubusercontent.com/43967269/122762442-9b2c4400-d29d-11eb-9aea-751866075f0e.png" alt="Register Screen">
 </p>
 
 Main content consists of two tabs: **Explore** and **Library**. In **first tab**, which represents data from API, there are three pages: 
@@ -58,9 +58,9 @@ Main content consists of two tabs: **Explore** and **Library**. In **first tab**
 but you can use search view placed at the top of the screen to **browse items by their names**.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/43967269/118284328-991ddb00-b4d0-11eb-885a-5893d5a42a61.png" alt="MoviesFragment">
-<img src="https://user-images.githubusercontent.com/43967269/118284362-a1761600-b4d0-11eb-8e51-bfd6ee7fd624.png" alt="TVShowsFragment">
-<img src="https://user-images.githubusercontent.com/43967269/118284375-a4710680-b4d0-11eb-8dbb-c583ba60dfe1.png" alt="PeopleFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762445-9bc4da80-d29d-11eb-91a0-93d54822ba8e.png" alt="MoviesFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762446-9bc4da80-d29d-11eb-85bc-10a60d8a6670.png" alt="PeopleFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762447-9c5d7100-d29d-11eb-8a1d-620501894b56.png" alt="TVShowsFragment">
 </p>
 
 In **second tab**, which represents data from Firebase, there are two pages: **To Watch** and **Watched**. By default, in each of them there are displayed full lists,
@@ -68,8 +68,8 @@ but you can - again - use search view placed at the top of the screen to **brows
 so using it causes in searching in all five lists at the same time.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/43967269/118284827-23663f00-b4d1-11eb-80c1-11e37fab54a5.png" alt="ToWatchFragment">
-<img src="https://user-images.githubusercontent.com/43967269/118284834-26612f80-b4d1-11eb-9b12-8316d873b0ff.png" alt="WatchedFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762449-9c5d7100-d29d-11eb-940b-0c3dea6a6373.png" alt="ToWatchFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762451-9cf60780-d29d-11eb-8391-66ef0157006f.png" alt="WatchedFragment">
 </p>
 
 If you click a row or tile with specific movie / TV Show / person, you'll go to the screen presenting **it's details**. Information which is displayed here 
@@ -79,20 +79,17 @@ it will become red, which means that current movie / TV Show is in your "To Watc
 that current movie / TV Show is in your "Watched" list. Clicking it again will bring it to default, gray color - the movie / TV Show is not in your lists.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/43967269/118285518-d0d95280-b4d1-11eb-8d0c-b29eff3c6e4d.png" alt="MovieDetailsFragment">
-<img src="https://user-images.githubusercontent.com/43967269/118285537-d6cf3380-b4d1-11eb-8ae6-732c3fd5befc.png" alt="PersonDetailsFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762453-9cf60780-d29d-11eb-98d9-11b3262ddc7c.png" alt="MovieDetailsFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762457-9e273480-d29d-11eb-830d-899a622f7a37.png" alt="PersonDetailsFragment">
 </p>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/43967269/118285528-d3d44300-b4d1-11eb-9bfe-11f5d4189a1d.png" alt="TVShowDetailsFragment">
-<img src="https://user-images.githubusercontent.com/43967269/118285544-d9318d80-b4d1-11eb-9fb2-f4e5d95708b7.png" alt="CompanyDetailsFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762456-9d8e9e00-d29d-11eb-9269-1a51c07377dd.png" alt="TVShowDetailsFragment">
+<img src="https://user-images.githubusercontent.com/43967269/122762455-9d8e9e00-d29d-11eb-85f1-3197a05f208b.png" alt="CompanyDetailsFragment">
 </p>
 
 ### Project status
-The project is useful and almost complete, but there are still some **features that can be added**:
-* **possibility to work offline** - the application doesn't work without access to Internet or API,
-* **possibility to use Google account** or any other social media account, which is much more convenient than using the email,
-* **possibility to remind the password** if user forgets it.
+The project is considered as **finished**.
 
 ### Credits
 Icons used in this project come mostly from [Flaticon](https://www.flaticon.com/).
